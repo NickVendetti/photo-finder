@@ -17,11 +17,3 @@ Flickr API Docs: [https://www.flickr.com/services/api/](https://www.flickr.com/s
 
 - Get User Info: [`flickr.people.getInfo`](https://www.flickr.com/services/api/flickr.people.getInfo.html)  
   - Gets details about a photographer.
-
-### API Authentication
-To make requests, you will need an **API key** from Flickr:
-1. **Sign up** for a Flickr account.
-2. **Request an API key** from the [Flickr API Key Page](https://www.flickr.com/services/apps/create/).
-3. **Store your API key in an environment variable** in a `.env` file:
-   ```env
-   VITE_FLICKR_API_KEY=your_api_key_here
