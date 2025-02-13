@@ -1,3 +1,6 @@
+-- Drop tables if they exist (for re-seeding)
+DROP TABLE IF EXISTS bookings, reviews, photos, photographers, users CASCADE;
+
 -- Create Users table (stores both photographers and customers)
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
@@ -5,7 +8,7 @@ CREATE TABLE users (
   email VARCHAR(100) UNIQUE NOT NULL,
   password TEXT NOT NULL,
   user_type VARCHAR(20) CHECK (user_type IN ('photographer', 'customer')) NOT NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP 
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Create Photographers table (linked to users)
@@ -19,18 +22,23 @@ CREATE TABLE photographers (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Create Photos table (stores uploaded images by photographers)
-CREATE TABLE photos(
+-- Create Photos table (stores uploaded images by photographers & Flickr images)
+CREATE TABLE photos (
   id SERIAL PRIMARY KEY,
-  photographer_id INTEGER REFERENCES photographers(id) ON DELETE CASCADE,
-  image_url TEXT NOT NULL,
-  description TEXT,
-  category VARCHAR(100),
-  uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  photographer_id INTEGER REFERENCES photographers(id) ON DELETE SET NULL, -- Null for Flickr images
+  photo_id VARCHAR(50), -- Flickr's image ID (NULL for user uploads)
+  title TEXT NOT NULL,
+  image_url TEXT NOT NULL, -- Stores Flickr URL or uploaded image path
+  is_public BOOLEAN DEFAULT TRUE,
+  tags TEXT[], -- Array of tags for filtering
+  latitude DECIMAL(10, 7), -- Geolocation: Latitude
+  longitude DECIMAL(10, 7), -- Geolocation: Longitude
+  source VARCHAR(10) CHECK (source IN ('flickr', 'upload')) NOT NULL, -- Identifies Flickr vs Upload
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
---Create Reviews table (customers review photographers)
-CREATE TABLE reviews(
+-- Create Reviews table (customers review photographers)
+CREATE TABLE reviews (
   id SERIAL PRIMARY KEY,
   photographer_id INTEGER REFERENCES photographers(id) ON DELETE CASCADE,
   customer_id INTEGER REFERENCES users(id) ON DELETE CASCADE,

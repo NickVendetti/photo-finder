@@ -1,19 +1,42 @@
-# photo-finder
-A platform for users to discover photographers based on style, category, and location.
+# Photo Finder - Capstone Project
 
+## Overview
+Photo Finder is a platform where users can find photographers based on their style, location, and portfolio. Users can browse images from **Flickr** and **user-uploaded content**, leave reviews, and contact photographers.
 
-## Flickr API Integration
-We are using the **Flickr API** as our primary data source for fetching photos. This allows users to browse images uploaded by photographers.
+## Tech Stack
+- **Frontend:** React, Vite, Tailwind CSS
+- **Backend:** Node.js, Express, PostgreSQL
+- **Database ORM:** Prisma
+- **Authentication:** JWT
+- **APIs:** Flickr API, Cloudinary API
 
-### API Documentation
-Flickr API Docs: [https://www.flickr.com/services/api/](https://www.flickr.com/services/api/)
+## Data Sources
+- **Flickr API** (for public images):
+  - [API Docs](https://www.flickr.com/services/api/)
+  - Base URL: `https://www.flickr.com/services/rest/`
+- **Cloudinary** (for user uploads):
+  - [API Docs](https://cloudinary.com/documentation)
+  - Stores user-uploaded images
 
-### API Endpoints Being Used
-- Search Photos: [`flickr.photos.search`](https://www.flickr.com/services/api/flickr.photos.search.html)  
-  - Retrieves photos based on search terms.
+## Environment Variables
+Create a `.env` file in the **backend** directory with:
+```
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+VITE_FLICKR_API_KEY=your_flickr_api_key
+VITE_FLICKR_API_SECRET=your_flickr_api_secret
+VITE_API_BASE_URL=https://www.flickr.com/services/rest/
+```
 
-- Get Photo Info: [`flickr.photos.getInfo`](https://www.flickr.com/services/api/flickr.photos.getInfo.html)  
-  - Retrieves details about a specific photo, including the photographer’s username.
+## Database Schema
+Schema is located in `backend/database/schema.sql`. It includes:
+- Users
+- Photographers
+- Photos (Flickr & user uploads)
+- Reviews
 
-- Get User Info: [`flickr.people.getInfo`](https://www.flickr.com/services/api/flickr.people.getInfo.html)  
-  - Gets details about a photographer.
+## Next Steps
+- Implement API routes
+- Frontend integration
+- Testing & deployment
