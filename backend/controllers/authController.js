@@ -1,14 +1,15 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import prisma from "../prisma/client.js"; // Prisma ORM for database operations
+import prisma from "../prisma/client.js";
 import dotenv from "dotenv";
 
 dotenv.config();
 
-const JWT_SECRET = process.env.JWT_SECRET || "supersecretkey"; // Ensure you add this in your `.env` file
+const JWT_SECRET = process.env.JWT_SECRET || "supersecretkey";
 
-/**  Register New User */
+/** Register New User */
 export const registerUser = async (req, res) => {
+  console.log("we made it here", req);
   try {
     const { username, email, password, user_type } = req.body;
 
@@ -17,17 +18,18 @@ export const registerUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     // Create user in DB
-    const user = await prisma.users.create({
+    const user = await prisma.user.create({
       data: {
         username,
         email,
-        password: hashedPassword,
-        user_type, // photographer or customer
-      },
+        password: hashedPassword, // Store hashed password
+        user_type
+      }
     });
 
     res.status(201).json({ message: "User registered successfully", user });
   } catch (error) {
+    console.error(" Registration Error:", error);
     res.status(500).json({ error: "Registration failed" });
   }
 };
@@ -42,7 +44,7 @@ export const loginUser = async (req, res) => {
     if (!user) return res.status(400).json({ error: "Invalid credentials" });
 
     // Compare password
-    const isMatch = await bcrypt.compare(password, users.password);
+    const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ error: "Invalid credentials" });
 
     // Create JWT token
@@ -54,6 +56,7 @@ export const loginUser = async (req, res) => {
 
     res.json({ message: "Login successful", token, user });
   } catch (error) {
+    console.error(" Login Error:", error);
     res.status(500).json({ error: "Login failed" });
   }
 };

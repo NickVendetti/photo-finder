@@ -1,31 +1,31 @@
-import React, { useEffect, useState } from "react";
-import fetchPhotos from "./api/flickrApi";
-
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useState, useEffect } from "react";
+import DiscoveryPage from "./pages/DiscoveryPage";
+import PhotoDetailsPage from "./pages/PhotoDetailsPage";
+import LandingPage from "./pages/LandingPage";
+import fetchPhotos from "./api/flickrApi"; // Ensure correct import for fetching photos
+import Register from "./pages/Register";
 function App() {
   const [photos, setPhotos] = useState([]);
 
   useEffect(() => {
     async function getPhotos() {
-      const results = await fetchPhotos("3d girl"); // Search for 'sunset' photos
+      const results = await fetchPhotos("popular"); // Fetch default photos
+      console.log("[DEBUG] Fetched Photos:", results); // Debugging
       setPhotos(results);
     }
     getPhotos();
   }, []);
-  
+
   return (
-    <div>
-      <h1>Photo Finder</h1>
-      <ul>
-        {photos.map((photo) =>(
-          <li key={photo.id}>
-            <img src={`https://live.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_q.jpg`}
-            alt={photo.title}
-            />
-            <p>{photo.title}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
+  
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/discover" element={<DiscoveryPage photos={photos} />} />
+        <Route path="/photo/:photoId" element={<PhotoDetailsPage />} />
+        <Route path="/register" element={<Register />} /> 
+      </Routes>
+    
   );
 }
 

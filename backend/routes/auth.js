@@ -3,13 +3,8 @@ import { registerUser, loginUser } from "../controllers/authController.js";
 
 const router = express.Router();
 
-// Define your auth routes here
-router.post("/login", (req, res) => {
-  res.json({ message: "User logged in" });
-});
+// Correct routes calling actual controller functions
+router.post("/login", loginUser);
+router.post("/register", registerUser);
 
-router.post("/register", (req, res) => {
-  res.json({ message: "User registered" });
-});
-
-export default router; //  This ensures it can be imported properly
+export default router;
