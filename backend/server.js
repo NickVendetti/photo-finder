@@ -1,12 +1,38 @@
 import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+
+// Load environment variables
+dotenv.config();
+
 import uploadRoutes from "./routes/uploadRoutes.js";
+import userRoutes from "./routes/users.js";
+import photographerRoutes from "./routes/photographers.js";
+import photoRoutes from "./routes/photos.js";
+import reviewRoutes from "./routes/reviews.js";
+import bookingRoutes from "./routes/bookings.js";
+import authRoutes from "./routes/auth.js";
 
 const app = express();
 
 // Middleware
-app.use(express.json());
+app.use(cors());
+app.use(express.json()); // Parse incoming JSON requests
 
 // Routes
-app.use("/upload", uploadRoutes); // Cloudinary upload route
+app.use("/api/upload", uploadRoutes); // Cloudinary Uploads
+app.use("/api/users", userRoutes);
+app.use("/api/photographers", photographerRoutes);
+app.use("/api/photos", photoRoutes);
+app.use("/api/reviews", reviewRoutes);
+app.use("/api/bookings", bookingRoutes);
+app.use("/api/auth", authRoutes);
 
-app.listen(5000, () => console.log("Server running on port 5000"));
+// Root route for testing
+app.get("/", (req, res) => {
+  res.send("📸 Photo Finder API is running...");
+});
+
+// Start the server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
