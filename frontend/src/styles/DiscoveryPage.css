@@ -1,0 +1,45 @@
+.discovery-container {
+  text-align: center;
+  padding: 20px;
+}
+
+input {
+  width: 80%;
+  padding: 10px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 15px;
+  padding: 10px;
+}
+
+.photo-card {
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.photo-card img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.photo-card:hover {
+  transform: scale(1.05);
+}
+
+.no-results {
+  text-align: center;
+  font-size: 18px;
+  color: #888;
+  margin-top: 20px;
+}
+
+.fixed {
+  z-index: 50; /* Ensure it's above everything */
+}
