@@ -23,8 +23,8 @@ export const registerUser = async (req, res) => {
         username,
         email,
         password: hashedPassword, // Store hashed password
-        user_type
-      }
+        user_type,
+      },
     });
 
     res.status(201).json({ message: "User registered successfully", user });

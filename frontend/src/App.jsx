@@ -5,6 +5,7 @@ import PhotoDetailsPage from "./pages/PhotoDetailsPage";
 import LandingPage from "./pages/LandingPage";
 import fetchPhotos from "./api/flickrApi"; // Ensure correct import for fetching photos
 import Register from "./pages/Register";
+
 function App() {
   const [photos, setPhotos] = useState([]);
 
