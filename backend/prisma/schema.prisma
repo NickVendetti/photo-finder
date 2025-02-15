@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int           @id @default(autoincrement())
+  username      String        @unique @db.VarChar(50)
+  email         String        @unique @db.VarChar(100)
+  password      String
+  user_type     String
+  created_at    DateTime      @default(now())
+  photographers Photographer? @relation(fields: [id], references: [user_id]) 
+  bookings      Booking[]
+  reviews       Review[]
+}
+
+model Photographer {
+  id              Int       @id @default(autoincrement())
+  user_id         Int       @unique
+  bio             String?
+  portfolio_url   String?
+  location        String?
+  profile_picture String?
+  created_at      DateTime  @default(now())
+  user            User      @relation(fields: [user_id], references: [id], onDelete: Cascade) 
+  photos          Photo[]
+  reviews         Review[]
+  bookings        Booking[]
+}
+
+model Photo {
+  id              Int           @id @default(autoincrement())
+  photographer_id Int?
+  photo_id        String?       @unique
+  title           String
+  image_url       String
+  is_public       Boolean       @default(true)
+  tags            String[]
+  latitude        Float?
+  longitude       Float?
+  source          String
+  created_at      DateTime      @default(now())
+  photographer Photographer? @relation(fields: [photographer_id], references: [id], onDelete: Cascade)
+}
+
+model Review {
+  id              Int          @id @default(autoincrement())
+  photographer_id Int
+  customer_id     Int
+  rating          Int
+  review_text     String?
+  recommended     Boolean      @default(false)
+  created_at      DateTime     @default(now())
+  user            User         @relation(fields: [customer_id], references: [id], onDelete: Cascade)
+  photographer    Photographer @relation(fields: [photographer_id], references: [id], onDelete: Cascade)
+}
+
+model Booking {
+  id              Int          @id @default(autoincrement())
+  photographer_id Int
+  customer_id     Int
+  event_date      DateTime
+  status          String       @default("pending")
+  created_at      DateTime     @default(now())
+  user            User         @relation(fields: [customer_id], references: [id], onDelete: Cascade)
+  photographer    Photographer @relation(fields: [photographer_id], references: [id], onDelete: Cascade)
+}
