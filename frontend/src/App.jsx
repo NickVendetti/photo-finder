@@ -5,6 +5,7 @@ import PhotoDetailsPage from "./pages/PhotoDetailsPage";
 import LandingPage from "./pages/LandingPage";
 import fetchPhotos from "./api/flickrApi"; // Ensure correct import for fetching photos
 import Register from "./pages/Register";
+import ProfileDashboard from "./pages/PhotographerDashboard";
 
 function App() {
   const [photos, setPhotos] = useState([]);
@@ -25,6 +26,7 @@ function App() {
         <Route path="/discover" element={<DiscoveryPage photos={photos} />} />
         <Route path="/photo/:photoId" element={<PhotoDetailsPage />} />
         <Route path="/register" element={<Register />} /> 
+        <Route path="/profile-dashboard" element={<ProfileDashboard />} />
       </Routes>
     
   );
