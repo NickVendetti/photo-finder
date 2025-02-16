@@ -30,11 +30,7 @@ function LandingPage() {
       const data = await response.json();
       console.log("User Logged In:", data);
 
-      // Store user data in local storage
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user_type", data.user.user_type); 
-
-      // Redirect based on user type
+    // Redirect based on user type
       if (data.user.user_type === "photographer") {
         navigate("/profile-dashboard"); // Photographer goes to their dashboard
       } else {
