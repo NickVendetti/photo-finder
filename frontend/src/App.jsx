@@ -1,34 +1,58 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
 import DiscoveryPage from "./pages/DiscoveryPage";
 import PhotoDetailsPage from "./pages/PhotoDetailsPage";
 import LandingPage from "./pages/LandingPage";
-import fetchPhotos from "./api/flickrApi"; // Ensure correct import for fetching photos
 import Register from "./pages/Register";
 import ProfileDashboard from "./pages/PhotographerDashboard";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { useAuth } from "./context/AuthContext";
+
+// export enum UserType {
+//   USER,
+//   PHOTOGRAPHER
+// }
 
 function App() {
-  const [photos, setPhotos] = useState([]);
-
-  useEffect(() => {
-    async function getPhotos() {
-      const results = await fetchPhotos("popular"); // Fetch default photos
-      console.log("[DEBUG] Fetched Photos:", results); // Debugging
-      setPhotos(results);
-    }
-    getPhotos();
-  }, []);
+  const { isAuthenticated, userType } = useAuth();
 
   return (
-  
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/discover" element={<DiscoveryPage photos={photos} />} />
-        <Route path="/photo/:photoId" element={<PhotoDetailsPage />} />
-        <Route path="/register" element={<Register />} /> 
-        <Route path="/profile-dashboard" element={<ProfileDashboard />} />
-      </Routes>
-    
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route
+        path="/discover"
+        element={
+          <ProtectedRoute
+            element={<DiscoveryPage />}
+            allowedUserTypes={["USER"]}
+            authenticationStatus={isAuthenticated}
+            userType={userType}
+          />
+        }
+      />
+      <Route
+        path="/photo/:photoId"
+        element={
+          <ProtectedRoute
+            element={<PhotoDetailsPage />}
+            allowedUserTypes={["USER"]}
+            authenticationStatus={isAuthenticated}
+            userType={userType}
+          />
+        }
+      />
+      <Route path="/register" element={<Register />} />
+      <Route
+        path="/profile-dashboard"
+        element={
+          <ProtectedRoute
+            element={<ProfileDashboard />}
+            allowedUserTypes={["PHOTOGRAPHER"]}
+            authenticationStatus={isAuthenticated}
+            userType={userType}
+          />
+        }
+      />
+    </Routes>
   );
 }
 

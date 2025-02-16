@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { useAuth } from "../context/AuthContext";
 function LandingPage() {
+
+  const { login } = useAuth();
+
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -28,12 +31,12 @@ function LandingPage() {
       }
 
       const data = await response.json();
-      console.log("User Logged In:", data);
-
-    // Redirect based on user type
-      if (data.user.user_type === "photographer") {
+      console.log(data)
+      if (data.user.user_type === "PHOTOGRAPHER") {
+        login(data.user)
         navigate("/profile-dashboard"); // Photographer goes to their dashboard
       } else {
+        login(data.user)
         navigate("/discover"); // Regular users go to the discovery page
       }
 
