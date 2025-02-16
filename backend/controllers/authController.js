@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import prisma from "../prisma/client.js";
 import dotenv from "dotenv";
-
+import { UserType } from "@prisma/client";
 dotenv.config();
 
 const JWT_SECRET = process.env.JWT_SECRET || "supersecretkey";
@@ -13,18 +13,24 @@ export const registerUser = async (req, res) => {
   try {
     const { username, email, password, user_type } = req.body;
 
-    // Hash password
+    const userType =
+      user_type == "photographer"
+        ? UserType.PHOTOGRAPHER
+        : user_type == "user" ? UserType.USER : null;
+    if (!user_type) {
+      res.status(401).json({ error: "Invalid user_type on user" });
+    }
+
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Create user in DB
     const user = await prisma.user.create({
       data: {
         username,
         email,
         password: hashedPassword, // Store hashed password
-        user_type,
-      },
+        user_type: userType
+      }
     });
 
     res.status(201).json({ message: "User registered successfully", user });

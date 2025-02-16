@@ -7,66 +7,37 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id            Int           @id @default(autoincrement())
-  username      String        @unique @db.VarChar(50)
-  email         String        @unique @db.VarChar(100)
-  password      String
-  user_type     String
-  created_at    DateTime      @default(now())
-  photographers Photographer? @relation(fields: [id], references: [user_id]) 
-  bookings      Booking[]
-  reviews       Review[]
+enum UserType {
+  USER
+  PHOTOGRAPHER
 }
 
-model Photographer {
-  id              Int       @id @default(autoincrement())
-  user_id         Int       @unique
-  bio             String?
-  portfolio_url   String?
-  location        String?
-  profile_picture String?
-  created_at      DateTime  @default(now())
-  user            User      @relation(fields: [user_id], references: [id], onDelete: Cascade) 
-  photos          Photo[]
-  reviews         Review[]
-  bookings        Booking[]
+model User {
+  id       Int    @id @default(autoincrement())
+  username String @unique @db.VarChar(50)
+  email    String @unique @db.VarChar(100)
+  password String
+
+  user_type UserType
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  photos Photo[]
 }
 
 model Photo {
-  id              Int           @id @default(autoincrement())
-  photographer_id Int?
-  photo_id        String?       @unique
-  title           String
-  image_url       String
-  is_public       Boolean       @default(true)
-  tags            String[]
-  latitude        Float?
-  longitude       Float?
-  source          String
-  created_at      DateTime      @default(now())
-  photographer Photographer? @relation(fields: [photographer_id], references: [id], onDelete: Cascade)
-}
+  id          Int      @id @default(autoincrement())
+  user_id     Int
+  image       String
+  title       String?  @db.VarChar(200)
+  description String?  @db.Text
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
 
-model Review {
-  id              Int          @id @default(autoincrement())
-  photographer_id Int
-  customer_id     Int
-  rating          Int
-  review_text     String?
-  recommended     Boolean      @default(false)
-  created_at      DateTime     @default(now())
-  user            User         @relation(fields: [customer_id], references: [id], onDelete: Cascade)
-  photographer    Photographer @relation(fields: [photographer_id], references: [id], onDelete: Cascade)
-}
+  // Make user_id required since a photo should always belong to a user
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
-model Booking {
-  id              Int          @id @default(autoincrement())
-  photographer_id Int
-  customer_id     Int
-  event_date      DateTime
-  status          String       @default("pending")
-  created_at      DateTime     @default(now())
-  user            User         @relation(fields: [customer_id], references: [id], onDelete: Cascade)
-  photographer    Photographer @relation(fields: [photographer_id], references: [id], onDelete: Cascade)
+  // Add indexes for better query performance
+  @@index([user_id])
 }
