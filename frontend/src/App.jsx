@@ -6,6 +6,7 @@ import Register from "./pages/Register";
 import ProfileDashboard from "./pages/PhotographerDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useAuth } from "./context/AuthContext";
+import Booking from "./pages/Booking";
 
 // export enum UserType {
 //   USER,
@@ -18,6 +19,8 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
+      <Route path="/booking/:photographer_id" element={<Booking />} />
+      
       <Route
         path="/discover"
         element={

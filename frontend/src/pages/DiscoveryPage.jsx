@@ -15,6 +15,7 @@ function DiscoveryPage() {
 
         const processedPhotos = data.images.map(photo => ({
           ...photo,
+        
           // Create a proper data URL by adding the MIME type prefix
           imageUrl: `${photo.image}`
           // If your base64 string already includes the prefix, you can use it directly:
@@ -35,12 +36,15 @@ function DiscoveryPage() {
   
   const handlePhotoClick = (photo) => {
     console.log("[DEBUG] Clicked Photo:", photo); // Debugging click
-
-    if (photo.photographer?.id) {
-      navigate(`/photographer/${photo.photographer.id}`);
-    } else {
-      console.error("No photographer ID found for this photo.");
+    if (photo.user.id){
+      navigate(`/booking/${photo.user.id}`);
     }
+    
+    // if (photo.photographer?.id) {
+    //   navigate(`/photographer/${photo.photographer.id}`);
+    // } else {
+    //   console.error("No photographer ID found for this photo.");
+    // }
   };
 
   return (
