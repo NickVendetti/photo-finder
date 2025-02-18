@@ -1,26 +1,24 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "../styles/PhotoDetailsPage.css";
+import { fetchPhotoDetails, fetchPhotographerDetails } from "../api/client";
 
 const PhotoDetailsPage = () => {
-  const { photoId } = useParams(); // Get the photo ID from URL
+  const { photoId } = useParams();
   const navigate = useNavigate();
   const [photo, setPhoto] = useState(null);
   const [photographer, setPhotographer] = useState(null);
 
   useEffect(() => {
-    async function fetchPhotoDetails() {
+    async function loadPhotoDetails() {
       try {
-        const response = await fetch(`http://localhost:5000/api/photos/${photoId}`);
-        const data = await response.json();
+        const data = await fetchPhotoDetails(photoId);
         setPhoto(data);
 
-        // Fetch photographer details
         if (data.photographer_id) {
-          const photographerResponse = await fetch(
-            `http://localhost:5000/api/photographers/${data.photographer_id}`
+          const photographerData = await fetchPhotographerDetails(
+            data.photographer_id
           );
-          const photographerData = await photographerResponse.json();
           setPhotographer(photographerData);
         }
       } catch (error) {
@@ -28,7 +26,7 @@ const PhotoDetailsPage = () => {
       }
     }
 
-    fetchPhotoDetails();
+    loadPhotoDetails();
   }, [photoId]);
 
   if (!photo) return <p>Loading photo details...</p>;
