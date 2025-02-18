@@ -7,55 +7,53 @@ import ProfileDashboard from "./pages/PhotographerDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useAuth } from "./context/AuthContext";
 import Booking from "./pages/Booking";
-
-// export enum UserType {
-//   USER,
-//   PHOTOGRAPHER
-// }
-
+import Navbar from "./components/Navbar";
 function App() {
   const { isAuthenticated, userType } = useAuth();
 
   return (
-    <Routes>
-      <Route path="/" element={<LandingPage />} />
-      <Route path="/booking/:photographer_id" element={<Booking />} />
-      
-      <Route
-        path="/discover"
-        element={
-          <ProtectedRoute
-            element={<DiscoveryPage />}
-            allowedUserTypes={["USER"]}
-            authenticationStatus={isAuthenticated}
-            userType={userType}
-          />
-        }
-      />
-      <Route
-        path="/photo/:photoId"
-        element={
-          <ProtectedRoute
-            element={<PhotoDetailsPage />}
-            allowedUserTypes={["USER"]}
-            authenticationStatus={isAuthenticated}
-            userType={userType}
-          />
-        }
-      />
-      <Route path="/register" element={<Register />} />
-      <Route
-        path="/profile-dashboard"
-        element={
-          <ProtectedRoute
-            element={<ProfileDashboard />}
-            allowedUserTypes={["PHOTOGRAPHER"]}
-            authenticationStatus={isAuthenticated}
-            userType={userType}
-          />
-        }
-      />
-    </Routes>
+    <>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/booking/:photographer_id" element={<Booking />} />
+
+        <Route
+          path="/discover"
+          element={
+            <ProtectedRoute
+              element={<DiscoveryPage />}
+              allowedUserTypes={["USER"]}
+              authenticationStatus={isAuthenticated}
+              userType={userType}
+            />
+          }
+        />
+        <Route
+          path="/photo/:photoId"
+          element={
+            <ProtectedRoute
+              element={<PhotoDetailsPage />}
+              allowedUserTypes={["USER"]}
+              authenticationStatus={isAuthenticated}
+              userType={userType}
+            />
+          }
+        />
+        <Route path="/register" element={<Register />} />
+        <Route
+          path="/profile-dashboard"
+          element={
+            <ProtectedRoute
+              element={<ProfileDashboard />}
+              allowedUserTypes={["PHOTOGRAPHER"]}
+              authenticationStatus={isAuthenticated}
+              userType={userType}
+            />
+          }
+        />
+      </Routes>
+    </>
   );
 }
 

@@ -1,10 +1,10 @@
 import { useState } from "react";
-import axios from "axios";
 import { useAuth } from "../context/AuthContext";
+import { uploadPhoto } from "../api/client";
 
 function ProfileDashboard() {
   const { photographerId } = useAuth();
-console.log(photographerId);
+  console.log(photographerId);
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const [uploadedImages, setUploadedImages] = useState([]);
@@ -26,13 +26,10 @@ console.log(photographerId);
     if (!image) return alert("Please select an image to upload.");
 
     try {
-      const res = await axios.post("http://localhost:5000/api/photos/upload", {
-        photographer_id: photographerId, // Replace with actual logged-in user ID
-        image,
-      });
+      const res = await uploadPhoto(photographerId, image);
 
-      if (res.data.success) {
-        setUploadedImages([...uploadedImages, res.data.photo.image]);
+      if (res.success) {
+        setUploadedImages([...uploadedImages, res.photo.image]);
       }
     } catch (err) {
       console.error("Upload failed:", err);
