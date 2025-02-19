@@ -27,6 +27,20 @@ CREATE TABLE "Photo" (
     CONSTRAINT "Photo_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "Booking" (
+    "id" SERIAL NOT NULL,
+    "bookingType" TEXT NOT NULL,
+    "date" TIMESTAMP(3) NOT NULL,
+    "time" TEXT NOT NULL,
+    "photographer_id" INTEGER NOT NULL,
+    "user_id" INTEGER NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Booking_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
 

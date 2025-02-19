@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-function LandingPage() {
+import { loginUser } from "../api/client";
 
+function LandingPage() {
   const { login } = useAuth();
 
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -18,44 +19,65 @@ function LandingPage() {
     console.log("Logging in:", formData);
 
     try {
-      const response = await fetch("http://localhost:5000/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const data = await loginUser(formData);
+      console.log(data);
 
-      if (!response.ok) {
-        throw new Error("Login failed. Please check your credentials.");
-      }
+      login(data.user);
 
-      const data = await response.json();
-      console.log(data)
       if (data.user.user_type === "PHOTOGRAPHER") {
-        login(data.user)
-        navigate("/profile-dashboard"); // Photographer goes to their dashboard
+        navigate("/profile-dashboard"); // Photographer dashboard
       } else {
-        login(data.user)
-        navigate("/discover"); // Regular users go to the discovery page
+        navigate("/discover"); // Regular users go to discovery page
       }
-
+    // eslint-disable-next-line no-unused-vars
     } catch (err) {
       setError("Invalid email or password. Please try again.");
-      console.error("Login error:", err);
     }
   };
 
   return (
-    <div style={{ textAlign: "center", padding: "50px" }}>
+    <div style={{ textAlign: "center", padding: "50px" }} onClick={() => console.log('HELLO')}>
       <h2>Welcome to Photo Finder</h2>
       <p>Log in to continue</p>
 
-      <form onSubmit={handleLoginSubmit} style={{ display: "flex", flexDirection: "column", gap: "10px", maxWidth: "300px", margin: "auto" }}>
-        <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
-        <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required />
+      <form
+        onSubmit={handleLoginSubmit}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "10px",
+          maxWidth: "300px",
+          margin: "auto",
+        }}
+      >
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          value={formData.email}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          value={formData.password}
+          onChange={handleChange}
+          required
+        />
 
-        <button type="submit" style={{ background: "#008CBA", color: "white", padding: "10px", border: "none", borderRadius: "5px", cursor: "pointer" }}>
+        <button
+          type="submit"
+          style={{
+            background: "#008CBA",
+            color: "white",
+            padding: "10px",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer",
+          }}
+        >
           Log In
         </button>
       </form>
@@ -63,10 +85,18 @@ function LandingPage() {
       {error && <p style={{ color: "red" }}>{error}</p>}
 
       {/* Sign Up Button */}
-      <p>Don't have an account?</p>
+      <p>Don&#39;t have an account?</p>
       <button
         onClick={() => navigate("/register")}
-        style={{ background: "#4CAF50", color: "white", padding: "10px", border: "none", borderRadius: "5px", cursor: "pointer", marginTop: "10px" }}
+        style={{
+          background: "#4CAF50",
+          color: "white",
+          padding: "10px",
+          border: "none",
+          borderRadius: "5px",
+          cursor: "pointer",
+          marginTop: "10px",
+        }}
       >
         Sign Up
       </button>

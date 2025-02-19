@@ -21,12 +21,7 @@ Photo Finder is a platform where users can find photographers based on their sty
 ## Environment Variables
 Create a `.env` file in the **backend** directory with:
 ```
-CLOUDINARY_CLOUD_NAME=your_cloud_name
-CLOUDINARY_API_KEY=your_api_key
-CLOUDINARY_API_SECRET=your_api_secret
-VITE_FLICKR_API_KEY=your_flickr_api_key
-VITE_FLICKR_API_SECRET=your_flickr_api_secret
-VITE_API_BASE_URL=https://www.flickr.com/services/rest/
+
 ```
 
 ## Database Schema

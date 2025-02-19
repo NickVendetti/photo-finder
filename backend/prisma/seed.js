@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, UserType } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -9,7 +9,7 @@ async function main() {
       username: "photographer1",
       email: "photo1@example.com",
       password: "hashedpassword1",
-      user_type: "photographer"
+      user_type: UserType.PHOTOGRAPHER
     }
   });
 
@@ -18,7 +18,7 @@ async function main() {
       username: "customer1",
       email: "customer1@example.com",
       password: "hashedpassword2",
-      user_type: "customer"
+      user_type: UserType.USER
     }
   });
 

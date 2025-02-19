@@ -5,17 +5,16 @@ const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userType, setUserType] = useState(null);
+  const [user, setUser] = useState({});
   const [photographerId, setPhotographerId] = useState(null);
 
   const login = (user) => {
     setIsAuthenticated(true);
-    console.log(user)
-    console.log(user.user_type)
     setUserType(user.user_type)
-    console.log('set user type to ', user.user_type)
+
+    setUser(user)
 
     const photographerId = user.user_type == "PHOTOGRAPHER" ? user.id : null;
-    console.log('photographerId ', photographerId);
     setPhotographerId(photographerId);
     
   };
@@ -30,6 +29,7 @@ export const AuthProvider = ({ children }) => {
         isAuthenticated,
         photographerId,
         userType,
+        user,
         login,
         logout
       }}
