@@ -1,98 +1,103 @@
-import { useParams } from "react-router-dom";
 import { useState } from "react";
-
+import "./Booking.css";
+import { useNavigate, useParams } from "react-router-dom";
+import bookingApi from "../api/bookingApi";
+import { useAuth} from "../context/AuthContext";
 function Booking() {
-  let { photographer_id } = useParams(); // Get photographer ID from URL
-
-  // State for form inputs
+  const { photographer_id } = useParams();
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
+    bookingType: "",
     date: "",
     time: "",
   });
 
-  // Handle input changes
+  const bookingTypes = [
+    { id: "portrait", name: "Portrait Session", duration: "1 hour" },
+    { id: "family", name: "Family Session", duration: "2 hours" },
+    { id: "event", name: "Event Coverage", duration: "4 hours" },
+    { id: "wedding", name: "Wedding Package", duration: "8 hours" },
+  ];
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  
-  // Handle form submission
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Booking Details:", formData);
-    alert("Booking confirmed!");
-    // Here, you would send the form data to your backend
+    try {
+      debugger;
+      const booking = await bookingApi.createBooking({
+        ...formData,
+        photographer_id: Number(photographer_id),
+        user_id: Number(user.id)
+      });
+
+      if (booking) {
+        navigate("/discover");
+      }
+    } catch (error) {
+      alert("Failed to create booking: " + error.message);
+    }
   };
-  
-  
+
   return (
-    <div className="max-w-md mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">
-        Booking for Photo #{photographer_id}
-      </h1>
-
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Name Input */}
-        <div>
-          <label className="block text-sm font-medium">Your Name</label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            className="w-full border rounded p-2"
-            required
-          />
+    <div className="booking-container">
+      <div className="booking-card">
+        <div className="booking-header">
+          <h1 className="booking-title">Book Your Session</h1>
+          <p className="booking-subtitle">Photographer #{photographer_id}</p>
         </div>
 
-        {/* Email Input */}
-        <div>
-          <label className="block text-sm font-medium">Your Email</label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className="w-full border rounded p-2"
-            required
-          />
-        </div>
+        <form onSubmit={handleSubmit} className="booking-form">
+          <div className="form-group">
+            <label className="form-label">Session Type</label>
+            <select
+              name="bookingType"
+              value={formData.bookingType}
+              onChange={handleChange}
+              className="form-select"
+              required
+            >
+              <option value="">Select a session type</option>
+              {bookingTypes.map((type) => (
+                <option key={type.id} value={type.id}>
+                  {type.name} ({type.duration})
+                </option>
+              ))}
+            </select>
+          </div>
 
-        {/* Date Input */}
-        <div>
-          <label className="block text-sm font-medium">Select Date</label>
-          <input
-            type="date"
-            name="date"
-            value={formData.date}
-            onChange={handleChange}
-            className="w-full border rounded p-2"
-            required
-          />
-        </div>
+          <div className="form-group">
+            <label className="form-label">Select Date</label>
+            <input
+              type="date"
+              name="date"
+              value={formData.date}
+              onChange={handleChange}
+              className="form-input"
+              required
+            />
+          </div>
 
-        {/* Time Input */}
-        <div>
-          <label className="block text-sm font-medium">Select Time</label>
-          <input
-            type="time"
-            name="time"
-            value={formData.time}
-            onChange={handleChange}
-            className="w-full border rounded p-2"
-            required
-          />
-        </div>
+          <div className="form-group">
+            <label className="form-label">Select Time</label>
+            <input
+              type="time"
+              name="time"
+              value={formData.time}
+              onChange={handleChange}
+              className="form-input"
+              required
+            />
+          </div>
 
-        {/* Submit Button */}
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
-        >
-          Confirm Booking
-        </button>
-      </form>
+          <button type="submit" className="submit-button">
+            Confirm Booking
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

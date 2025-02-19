@@ -41,3 +41,15 @@ model Photo {
   // Add indexes for better query performance
   @@index([user_id])
 }
+
+model Booking {
+  id            Int      @id @default(autoincrement())
+  bookingType   String
+  date          DateTime
+  time          String
+  photographer_id Int
+  user_id       Int
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}

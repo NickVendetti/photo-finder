@@ -1,8 +1,8 @@
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import { fetchAllPhotos } from "../api/client";
 import "./Gallery.css";
 
-const Gallery = () => {
+const Gallery = ({ onPhotoClick }) => {
   const [photos, setPhotos] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -21,22 +21,18 @@ const Gallery = () => {
     loadPhotos();
   }, []);
 
-  
-
-
   return (
     <div className="gallery">
       {photos.map((photo) => (
         <div
           key={photo.id}
           className="gallery-item"
-          onClick={() => console.log('testing')}
+          onClick={() => onPhotoClick(photo)} // Call the passed-in handler
         >
           <img
             src={photo.imageUrl}
             alt={photo.title || "Photo"}
             loading="lazy"
-            
           />
         </div>
       ))}
