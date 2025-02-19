@@ -1,3 +1,4 @@
+import { UserType } from "@prisma/client";
 import prisma from "../prisma/client.js";
 
 /**  Get all bookings */
@@ -13,30 +14,39 @@ export const getBookings = async (req, res) => {
   }
 };
 
-/**  Create a new booking */
 export const createBooking = async (req, res) => {
   try {
-    console.log("[DEBUG] Incoming booking request:", req.body);
+    const { bookingType, date, time, photographer_id, user_id } = req.body;
 
-    const { photographer_id, customer_id, event_date, status } = req.body;
-
-    if (!photographer_id || !customer_id || !event_date) {
-      return res.status(400).json({ error: "Missing required fields" });
+    if (!bookingType || !date || !time || !photographer_id || !user_id) {
+      return res.status(400).json({ error: "All fields are required" });
     }
 
-    const newBooking = await prisma.booking.create({
-      data: {
-        photographer_id,
-        customer_id,
-        event_date: new Date(event_date), // Ensure this is a valid Date object
-        status: status || "pending",
+    const photographer = await prisma.user.findUnique({
+      where: {
+        id: photographer_id,
+        user_type: UserType.PHOTOGRAPHER,
       },
     });
 
-    res.status(201).json(newBooking);
+    const realDate = new Date(date);
+    const [hours, minutes] = time.split(":").map(Number);
+    realDate.setHours(hours, minutes, 0, 0);
+
+    const booking = await prisma.booking.create({
+      data: {
+        bookingType,
+        date: new Date(date),
+        time,
+        photographer_id,
+        user_id,
+      },
+    });
+
+    res.status(201).json(booking);
   } catch (error) {
-    console.error("❌ Error creating booking:", error);
-    res.status(500).json({ error: "Error creating booking" });
+    console.error("Booking creation error:", error);
+    res.status(500).json({ error: "Failed to create booking" });
   }
 };
 

@@ -12,48 +12,55 @@ function App() {
   const { isAuthenticated, userType } = useAuth();
 
   return (
-    <>
+    <div>
       <Navbar />
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/booking/:photographer_id" element={<Booking />} />
+      <div style={{ paddingTop: "60px" }}>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/booking/:photographer_id" element={<ProtectedRoute
+                element={<Booking />}
+                allowedUserTypes={["USER"]}
+                authenticationStatus={isAuthenticated}
+                userType={userType}
+              />} />
 
-        <Route
-          path="/discover"
-          element={
-            <ProtectedRoute
-              element={<DiscoveryPage />}
-              allowedUserTypes={["USER"]}
-              authenticationStatus={isAuthenticated}
-              userType={userType}
-            />
-          }
-        />
-        <Route
-          path="/photo/:photoId"
-          element={
-            <ProtectedRoute
-              element={<PhotoDetailsPage />}
-              allowedUserTypes={["USER"]}
-              authenticationStatus={isAuthenticated}
-              userType={userType}
-            />
-          }
-        />
-        <Route path="/register" element={<Register />} />
-        <Route
-          path="/profile-dashboard"
-          element={
-            <ProtectedRoute
-              element={<ProfileDashboard />}
-              allowedUserTypes={["PHOTOGRAPHER"]}
-              authenticationStatus={isAuthenticated}
-              userType={userType}
-            />
-          }
-        />
-      </Routes>
-    </>
+          <Route
+            path="/discover"
+            element={
+              <ProtectedRoute
+                element={<DiscoveryPage />}
+                allowedUserTypes={["USER"]}
+                authenticationStatus={isAuthenticated}
+                userType={userType}
+              />
+            }
+          />
+          <Route
+            path="/photo/:photoId"
+            element={
+              <ProtectedRoute
+                element={<PhotoDetailsPage />}
+                allowedUserTypes={["USER"]}
+                authenticationStatus={isAuthenticated}
+                userType={userType}
+              />
+            }
+          />
+          <Route path="/register" element={<Register />} />
+          <Route
+            path="/profile-dashboard"
+            element={
+              <ProtectedRoute
+                element={<ProfileDashboard />}
+                allowedUserTypes={["PHOTOGRAPHER"]}
+                authenticationStatus={isAuthenticated}
+                userType={userType}
+              />
+            }
+          />
+        </Routes>
+      </div>
+    </div>
   );
 }
 
