@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { registerUser } from "../api/client";
 
 function Register() {
   const [formData, setFormData] = useState({ username: "", email: "", password: "", user_type: "user" });
@@ -13,29 +14,14 @@ function Register() {
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
     console.log("User Registering:", formData);
-
+  
     try {
-      const response = await fetch("http://localhost:5000/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) {
-        throw new Error("Registration failed. Please try again.");
-      }
-
-      const data = await response.json();
+      const data = await registerUser(formData);
       console.log("User Registered:", data);
       alert("Registration successful! You can now log in.");
-
-      // Navigate to Login Page after successful registration
       navigate("/");
-    } catch (err) {
-      setError("Registration failed. Please try again.");
-      console.error("Registration error:", err);
+    } catch (error) {
+      setError("Registration failed. Please try again.", error);
     }
   };
 
