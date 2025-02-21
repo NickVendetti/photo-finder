@@ -28,6 +28,7 @@ export async function loginUser(formData) {
   }
 }
 
+
 /**
  * Fetch all photos
  * @returns {Promise<Array>} - List of photos.
