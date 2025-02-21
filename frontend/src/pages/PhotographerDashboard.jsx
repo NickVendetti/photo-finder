@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { uploadPhoto } from "../api/client";
+import photoApi from "../api/photoApi";
 
 function ProfileDashboard() {
   const { photographerId } = useAuth();
@@ -8,6 +9,20 @@ function ProfileDashboard() {
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const [uploadedImages, setUploadedImages] = useState([]);
+
+  useEffect(() => {
+    const loadPhotosForUser = async () => {
+      if (photographerId) {
+        const response = await photoApi.getPhotosByUserId(photographerId);
+        if (response && response.photos) {
+          const images = response.photos.map((p) => p.image);
+          setUploadedImages(images);
+        }
+      }
+    };
+
+    loadPhotosForUser();
+  }, []);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];

@@ -3,6 +3,8 @@ import "./Booking.css";
 import { useNavigate, useParams } from "react-router-dom";
 import bookingApi from "../api/bookingApi";
 import { useAuth} from "../context/AuthContext";
+
+
 function Booking() {
   const { photographer_id } = useParams();
   const { user } = useAuth();
@@ -27,7 +29,6 @@ function Booking() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      debugger;
       const booking = await bookingApi.createBooking({
         ...formData,
         photographer_id: Number(photographer_id),

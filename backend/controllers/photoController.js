@@ -30,9 +30,9 @@ export const getAllPhotos = async (req, res) => {
 //
 export const getByPhotographerId = async (req, res) => {
   try {
-    const userId = parseInt(req.params.photographer_id);
-    const photos = await prismaClient.photo.findMany({
-      where: { photographer_id }
+    const photographer_id = parseInt(req.params.user_id);
+    const photos = await prisma.photo.findMany({
+      where: { user_id: photographer_id }
     });
     res.json({ success: true, photos });
   } catch (error) {
