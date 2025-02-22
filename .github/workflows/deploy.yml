@@ -1,0 +1,56 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main  # or your production branch
+
+env:
+  DOCKER_COMPOSE_VERSION: "2.21.0"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.8.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Add SSH Host Key
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+
+      - name: Copy files to server
+        run: |
+          rsync -avz --exclude '.git*' \
+            --exclude 'node_modules' \
+            ./ ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:~/app/
+
+      - name: Deploy on remote server
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            # Navigate to app directory
+            cd ~/app
+
+            # Pull latest images and rebuild
+            docker compose pull
+            docker compose build --no-cache
+
+            # Run database migrations
+            docker compose run --rm backend npx prisma migrate deploy
+
+            # Restart services
+            docker compose down
+            docker compose up -d
+
+            # Clean up old images
+            docker image prune -f
