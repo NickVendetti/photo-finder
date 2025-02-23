@@ -11,6 +11,13 @@ COPY prisma ./prisma/
 # Install dependencies
 RUN npm ci --only=production
 
+ARG DATABASE_URL
+ARG NODE_ENV
+
+# Set environment variables for the production stage
+ENV DATABASE_URL=${DATABASE_URL}
+ENV NODE_ENV=${NODE_ENV}
+
 # Generate the prisma client
 RUN npx prisma generate --schema=./prisma/schema.prisma
 
