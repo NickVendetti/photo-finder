@@ -1,6 +1,6 @@
 import { API_BASE_URL } from "./client";
 
-const FullPhotosApiUrl = `${API_BASE_URL}/api/photos`;
+const FullPhotosApiUrl = `${API_BASE_URL}/photos`;
 
 const handleResponse = async (response) => {
   if (!response.ok) {
