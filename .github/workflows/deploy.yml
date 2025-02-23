@@ -63,7 +63,7 @@ jobs:
             # Pull latest images and rebuild
             docker compose pull
             docker compose build --no-cache \
-              --build-arg DATABASE_URL="postgresql://postgres:postgres@postgres-db:5432/my-database" \
+              --build-arg DATABASE_URL="postgresql://postgres:postgres@db:5432/my-database" \
               --build-arg NODE_ENV="production"
 
             # Run database migrations
