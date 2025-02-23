@@ -1,6 +1,7 @@
 import { API_BASE_URL } from "./client";
 
 const FullBookingApiUrl = `${API_BASE_URL}/api/bookings`;
+
 const handleResponse = async (response) => {
   if (!response.ok) {
     const error = await response.json();
