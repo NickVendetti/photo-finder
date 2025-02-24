@@ -9,7 +9,7 @@ export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
  */
 export async function loginUser(formData) {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
+    const response = await fetch(`${API_BASE_URL}/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -35,7 +35,7 @@ export async function loginUser(formData) {
  */
 export async function fetchAllPhotos() {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/photos/`);
+    const response = await fetch(`${API_BASE_URL}/photos/`);
     if (!response.ok) throw new Error("Failed to fetch photos");
 
     const data = await response.json();
@@ -56,7 +56,7 @@ export async function fetchAllPhotos() {
  */
 export async function fetchPhotoDetails(photoId) {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/photos/${photoId}`);
+    const response = await fetch(`${API_BASE_URL}/photos/${photoId}`);
     if (!response.ok) throw new Error("Failed to fetch photo details");
 
     const data = await response.json();
@@ -74,7 +74,7 @@ export async function fetchPhotoDetails(photoId) {
  */
 export async function fetchPhotographerDetails(photographerId) {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/photographers/${photographerId}`);
+    const response = await fetch(`${API_BASE_URL}/photographers/${photographerId}`);
     if (!response.ok) throw new Error("Failed to fetch photographer details");
 
     return await response.json();
@@ -92,7 +92,7 @@ export async function fetchPhotographerDetails(photographerId) {
  */
 export async function uploadPhoto(photographerId, image) {
   try {
-    const response = await axios.post(`${API_BASE_URL}/api/photos/upload`, {
+    const response = await axios.post(`${API_BASE_URL}/photos/upload`, {
       photographer_id: photographerId,
       image,
     });
@@ -111,7 +111,7 @@ export async function uploadPhoto(photographerId, image) {
  */
 export async function registerUser(formData) {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
+    const response = await fetch(`${API_BASE_URL}/auth/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

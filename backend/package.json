@@ -6,7 +6,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node --env-file=.env server.js",
+    "start": "node server.js",
     "prisma:migrate": "npx prisma migrate dev --name ${npm_config_name:-init}",
     "prisma:seed": "npx prisma db seed",
     "prisma:reset": "npx prisma migrate reset --force",

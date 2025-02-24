@@ -1,6 +1,6 @@
 import { API_BASE_URL } from "./client";
 
-const FullBookingApiUrl = `${API_BASE_URL}/api/bookings`;
+const FullBookingApiUrl = `${API_BASE_URL}/bookings`;
 
 const handleResponse = async (response) => {
   if (!response.ok) {
