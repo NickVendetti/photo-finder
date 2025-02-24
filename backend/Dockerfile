@@ -1,27 +1,43 @@
-# Use official Node.js LTS image
-FROM node:20-alpine
+# Build stage for dependencies and Prisma client generation
+FROM node:18-alpine AS builder
 
-# Set working directory inside container
+# Accept build arguments
+ARG DATABASE_URL
+ARG NODE_ENV
+
+# Set as environment variables
+ENV DATABASE_URL=${DATABASE_URL}
+ENV NODE_ENV=${NODE_ENV}
+
 WORKDIR /app
 
-# Copy package files and install dependencies
-COPY package.json package-lock.json ./
+# Copy package files and prisma schema
+COPY package*.json ./
 COPY prisma ./prisma/
 
 # Install dependencies
-RUN npm ci --only=production
+RUN npm ci
 
-# Generate the prisma client
-RUN npx prisma generate --schema=./prisma/schema.prisma
+# Generate Prisma client
+RUN npx prisma generate
 
-# Copy the rest of the backend code
+# Copy the rest of the application code
 COPY . .
 
-# Set environment variables (override in container runtime)
-ENV NODE_ENV=production PORT=6000
+# Production stage
+FROM node:18-alpine
 
-# Expose backend port
-EXPOSE 6000
+WORKDIR /app
 
-# Start the Express server
-CMD ["node", "server.js"]
+# Copy files from builder stage
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package*.json ./
+COPY --from=builder /app/prisma ./prisma
+COPY . .
+
+# Set production environment variables
+ENV NODE_ENV=production
+ENV DATABASE_URL=${DATABASE_URL}
+
+# Start the application
+CMD ["npm", "start"]

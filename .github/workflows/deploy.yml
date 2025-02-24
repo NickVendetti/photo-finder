@@ -2,8 +2,8 @@ name: Deploy to Production
 
 on:
   push:
-    branches:
-      - main  # or your production branch
+    # branches:
+    #   - main  # or your production branch
 
 env:
   DOCKER_COMPOSE_VERSION: "2.21.0"
@@ -14,6 +14,19 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Create .env file
+        run: |
+          cat << EOF > .env
+          # Database configuration
+          DATABASE_URL="postgresql://postgres:postgres@db:5432/my-database"
+          POSTGRES_USER="postgres"
+          POSTGRES_PASSWORD="postgres"
+          POSTGRES_DB="my-database"
+          
+          # Add any other environment variables your app needs
+          NODE_ENV="production"
+          EOF
 
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.8.0
@@ -29,6 +42,7 @@ jobs:
         run: |
           rsync -avz --exclude '.git*' \
             --exclude 'node_modules' \
+            --exclude 'dist' \
             ./ ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:~/app/
 
       - name: Deploy on remote server
@@ -41,9 +55,16 @@ jobs:
             # Navigate to app directory
             cd ~/app
 
+            # Ensure environment variables are properly loaded
+            set -a
+            source .env
+            set +a
+
             # Pull latest images and rebuild
             docker compose pull
-            docker compose build --no-cache
+            docker compose build --no-cache \
+              --build-arg DATABASE_URL="postgresql://postgres:postgres@db:5432/my-database" \
+              --build-arg NODE_ENV="production"
 
             # Run database migrations
             docker compose run --rm backend npx prisma migrate deploy
