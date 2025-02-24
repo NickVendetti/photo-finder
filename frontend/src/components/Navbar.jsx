@@ -19,9 +19,14 @@ const Navbar = () => {
           )}
 
           {isAuthenticated && userType === "PHOTOGRAPHER" && (
-            <li>
-              <Link to="/profile-dashboard">Photographer Dashboard</Link>
-            </li>
+            <div className="nav-links">
+              <li>
+                <Link to="/profile-dashboard">Photographer Dashboard</Link>
+              </li>
+              <li>
+                <Link to="/manage-bookings">Manage Bookings</Link>
+              </li>
+            </div>
           )}
 
           {isAuthenticated ? (
@@ -32,7 +37,7 @@ const Navbar = () => {
             </li>
           ) : (
             <li>
-              <Link to="/">Login</Link>
+              <Link to="/login">Login</Link>
             </li>
           )}
         </ul>

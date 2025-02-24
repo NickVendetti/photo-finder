@@ -4,12 +4,16 @@ import prisma from "../prisma/client.js";
 /**  Get all bookings */
 export const getBookings = async (req, res) => {
   try {
-    console.log("Received event_date:", req.body.event_date);
-    const bookings = await prisma.booking.findMany();
-    console.log("📌 Retrieved Bookings:", bookings); // Debugging log
+    const { id } = req.params;
+
+    const bookings = await prisma.booking.findMany({
+      where: {
+        photographer_id: Number(id),
+      },
+    });
+
     res.json(bookings);
   } catch (error) {
-    console.error("❌ Error retrieving bookings:", error); // Debugging log
     res.status(500).json({ error: "Error retrieving bookings" });
   }
 };

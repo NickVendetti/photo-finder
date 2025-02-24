@@ -16,13 +16,13 @@ import authRoutes from "./routes/auth.js";
 const app = express();
 
 // Middleware
-app.use(cors(
-  {
+app.use(
+  cors({
     origin: "*",
     methods: "GET,POST,PUT,DELETE",
-    allowedHeaders: "Content-Type,Authorization"
-  }
-));
+    allowedHeaders: "Content-Type,Authorization",
+  })
+);
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
@@ -40,42 +40,42 @@ app.get("/", (req, res) => {
   res.send("📸 Photo Finder API is running...");
 });
 
-app.get('/health', async (req, res) => {
+app.get("/health", async (req, res) => {
   try {
-      // First, check if we can connect to the database
-      await prisma.$queryRaw`SELECT 1`;
-      
-      res.status(200).send('Healthy');
+    // First, check if we can connect to the database
+    await prisma.$queryRaw`SELECT 1`;
+
+    res.status(200).send("Healthy");
   } catch (error) {
-      // If database check fails, we'll still return 'Healthy' for now
-      // but log the error for monitoring
-      console.error('Database health check failed:', error);
-      res.status(200).send('Healthy');
+    // If database check fails, we'll still return 'Healthy' for now
+    // but log the error for monitoring
+    console.error("Database health check failed:", error);
+    res.status(200).send("Healthy");
   }
 });
 
 // Detailed health check that includes dependency status
-app.get('/health/detailed', async (req, res) => {
+app.get("/health/detailed", async (req, res) => {
   const health = {
-      status: 'Healthy',
-      timestamp: new Date(),
-      database: 'Unknown',
-      uptime: process.uptime()
+    status: "Healthy",
+    timestamp: new Date(),
+    database: "Unknown",
+    uptime: process.uptime(),
   };
 
   try {
-      // Check database connection
-      await prisma.$queryRaw`SELECT 1`;
-      health.database = 'Connected';
+    // Check database connection
+    await prisma.$queryRaw`SELECT 1`;
+    health.database = "Connected";
   } catch (error) {
-      health.database = 'Disconnected';
-      health.status = 'Degraded';
+    health.database = "Disconnected";
+    health.status = "Degraded";
   }
 
-  const statusCode = health.status === 'Healthy' ? 200 : 503;
+  const statusCode = health.status === "Healthy" ? 200 : 503;
   res.status(statusCode).json(health);
 });
 
 // Start the server
-const PORT = process.env.PORT || 6000;
+const PORT = process.env.PORT || 5002;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

@@ -8,7 +8,7 @@ import {
 const router = express.Router();
 
 // GET all bookings
-router.get("/", getBookings);
+router.get("/:id", getBookings);
 
 // POST a new booking (creating a new booking)
 router.post("/", createBooking);

@@ -3,9 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { loginUser } from "../api/client";
 
-function LandingPage() {
+export default function Login() {
   const { login } = useAuth();
-
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -101,5 +100,3 @@ function LandingPage() {
     </div>
   );
 }
-
-export default LandingPage;
