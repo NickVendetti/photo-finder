@@ -13,11 +13,9 @@ function Register() {
 
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
-    console.log("User Registering:", formData);
   
     try {
-      const data = await registerUser(formData);
-      console.log("User Registered:", data);
+      await registerUser(formData);
       alert("Registration successful! You can now log in.");
       navigate("/");
     } catch (error) {

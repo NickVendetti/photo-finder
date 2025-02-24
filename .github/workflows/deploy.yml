@@ -2,8 +2,8 @@ name: Deploy to Production
 
 on:
   push:
-    # branches:
-    #   - main  # or your production branch
+    branches:
+      - main
 
 env:
   DOCKER_COMPOSE_VERSION: "2.21.0"

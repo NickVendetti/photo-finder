@@ -5,7 +5,6 @@ import photoApi from "../api/photoApi";
 
 function ProfileDashboard() {
   const { photographerId } = useAuth();
-  console.log(photographerId);
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const [uploadedImages, setUploadedImages] = useState([]);
