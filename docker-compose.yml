@@ -20,7 +20,7 @@ services:
         - NODE_ENV=${NODE_ENV}
     container_name: my-backend
     ports:
-      - "6000:6000"
+      - "6000:5002"
     environment:
       - NODE_ENV=${NODE_ENV}
       - DATABASE_URL=${DATABASE_URL}
