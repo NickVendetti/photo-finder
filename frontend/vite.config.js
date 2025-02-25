@@ -1,29 +1,22 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
 // Load the correct `.env` file based on the environment
-const mode = process.env.NODE_ENV || 'development';
+const mode = process.env.NODE_ENV || "development";
 const envFile = `.env.${mode}`;
 
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config({ path: envFile });
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), tailwindcss()],
   build: {
-    sourcemap: true, // Ensures source maps are generated
+    sourcemap: true,
   },
-  // server: {
-  //   host: true,
-  //   proxy: {
-  //     '/api': {
-  //       target: 'http://my-backend:6000',
-  //       changeOrigin: true,
-  //       secure: false
-  //     }
-  //   }
-  // },
+
   define: {
-    'import.meta.env.VITE_API_BASE_URL': JSON.stringify(process.env.VITE_API_BASE_URL)
-  }
-})
+    "import.meta.env.VITE_API_BASE_URL": JSON.stringify(
+      process.env.VITE_API_BASE_URL
+    ),
+  },
+});

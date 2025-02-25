@@ -10,9 +10,18 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { useAuth } from "./context/AuthContext";
 import Booking from "./pages/Booking";
 import Navbar from "./components/Navbar";
-
+import "./index.css";
 function App() {
-  const { isAuthenticated, userType } = useAuth();
+  const { isAuthenticated, userType, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="loading-screen">
+        <div className="spinner"></div>
+        <p>Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div>

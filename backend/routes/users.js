@@ -12,9 +12,9 @@ import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-/// Protected routes (Only logged-in users can access)
-router.get("/profile", protect, getUserProfile); //  Protected profile route
-router.put("/profile", protect, updateUserProfile); //  Protected profile update
+// protect with the auth middleware!
+router.get("/profile", protect, getUserProfile); 
+router.put("/profile", protect, updateUserProfile);
 
 // Public routes
 router.get("/", getAllUsers);

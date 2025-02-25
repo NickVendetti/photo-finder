@@ -4,24 +4,27 @@ import { useAuth } from "../context/AuthContext";
 import { loginUser } from "../api/client";
 
 export default function Login() {
-  const { login } = useAuth();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleLoginSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true);
+    setError("");
     try {
-      const data = await loginUser(formData);
+      const response = await loginUser(formData);
 
-      login(data.user);
+      login(response.user, response.token);
 
-      if (data.user.user_type === "PHOTOGRAPHER") {
+      if (response.user.user_type === "PHOTOGRAPHER") {
         navigate("/profile-dashboard"); // Photographer dashboard
       } else {
         navigate("/discover"); // Regular users go to discovery page
@@ -29,16 +32,19 @@ export default function Login() {
       // eslint-disable-next-line no-unused-vars
     } catch (err) {
       setError("Invalid email or password. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <div style={{ textAlign: "center", padding: "50px" }}>
-      <h2>Welcome to Photo Finder</h2>
-      <p>Log in to continue</p>
+      <h2>Login to PhotoApp</h2>
+
+      {error && <div className="error-message">{error}</div>}
 
       <form
-        onSubmit={handleLoginSubmit}
+        onSubmit={handleSubmit}
         style={{
           display: "flex",
           flexDirection: "column",
@@ -64,24 +70,10 @@ export default function Login() {
           required
         />
 
-        <button
-          type="submit"
-          style={{
-            background: "#008CBA",
-            color: "white",
-            padding: "10px",
-            border: "none",
-            borderRadius: "5px",
-            cursor: "pointer",
-          }}
-        >
-          Log In
+        <button type="submit" className="auth-button" disabled={isLoading}>
+          {isLoading ? "Logging in..." : "Login"}
         </button>
       </form>
-
-      {error && <p style={{ color: "red" }}>{error}</p>}
-
-      {/* Sign Up Button */}
       <p>Don&#39;t have an account?</p>
       <button
         onClick={() => navigate("/register")}
