@@ -1,4 +1,5 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import * as jwt_decode from "jwt-decode";
 
 const AuthContext = createContext(null);
 
@@ -7,22 +8,65 @@ export const AuthProvider = ({ children }) => {
   const [userType, setUserType] = useState(null);
   const [user, setUser] = useState({});
   const [photographerId, setPhotographerId] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const login = (user) => {
+  useEffect(() => {
+    const checkAuth = () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        try {
+          // Verify token expiration
+          const decodedToken = jwt_decode.jwtDecode(token);
+          const currentTime = Date.now() / 1000;
+
+          if (decodedToken.exp > currentTime) {
+            setIsAuthenticated(true);
+            setUserType(decodedToken.user_type);
+
+            const userData = localStorage.getItem("user");
+            if (userData) {
+              setUser(JSON.parse(userData));
+            }
+          } else {
+            logout();
+          }
+        } catch (error) {
+          console.error("Token validation error:", error);
+          logout();
+        }
+      }
+      setLoading(false);
+    };
+
+    checkAuth();
+  }, []);
+
+  const login = (userData, token) => {
+    localStorage.setItem("token", token);
+    localStorage.setItem("user", JSON.stringify(userData));
+
+    const decodedToken = jwt_decode.jwtDecode(token);
+
     setIsAuthenticated(true);
-    setUserType(user.user_type)
+    setUserType(decodedToken.user_type);
+    setUser(userData);
 
-    setUser(user)
+    setIsAuthenticated(true);
+    setUserType(user.user_type);
+
+    setUser(user);
 
     const photographerId = user.user_type == "PHOTOGRAPHER" ? user.id : null;
     setPhotographerId(photographerId);
-    
   };
 
   const logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
     setIsAuthenticated(false);
     setUserType(null);
-  }
+    setUser(null);
+  };
   return (
     <AuthContext.Provider
       value={{
@@ -30,8 +74,9 @@ export const AuthProvider = ({ children }) => {
         photographerId,
         userType,
         user,
+        loading,
         login,
-        logout
+        logout,
       }}
     >
       {children}
