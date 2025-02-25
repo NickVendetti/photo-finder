@@ -23,7 +23,7 @@ export default function Login() {
       const response = await loginUser(formData);
 
       login(response.user, response.token);
-
+      debugger;
       if (response.user.user_type === "PHOTOGRAPHER") {
         navigate("/profile-dashboard"); // Photographer dashboard
       } else {

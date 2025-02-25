@@ -23,6 +23,8 @@ export const AuthProvider = ({ children }) => {
             setIsAuthenticated(true);
             setUserType(decodedToken.user_type);
 
+            const userId = decodedToken.user_type == "PHOTOGRAPHER" ? decodedToken.id : null;
+            setPhotographerId(userId);
             const userData = localStorage.getItem("user");
             if (userData) {
               setUser(JSON.parse(userData));
@@ -51,10 +53,7 @@ export const AuthProvider = ({ children }) => {
     setUserType(decodedToken.user_type);
     setUser(userData);
 
-    setIsAuthenticated(true);
-    setUserType(user.user_type);
 
-    setUser(user);
 
     const photographerId = user.user_type == "PHOTOGRAPHER" ? user.id : null;
     setPhotographerId(photographerId);
