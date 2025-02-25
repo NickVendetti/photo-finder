@@ -6,7 +6,6 @@ const ProtectedRoute = ({
     authenticationStatus,
     userType
 }) => {
-    debugger;
     if (!authenticationStatus) {
         return <Navigate to="/" state={{ from: window.location.pathname }} />;
     }
