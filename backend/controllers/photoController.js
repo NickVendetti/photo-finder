@@ -1,3 +1,4 @@
+import { UserType } from "@prisma/client";
 import prisma from "../prisma/client.js";
 
 //
@@ -54,7 +55,8 @@ export const addPhoto = async (req, res) => {
 
     const photographer = await prisma.user.findUnique({
       where: {
-        id: parseInt(photographer_id)
+        id: parseInt(photographer_id),
+        user_type: UserType.PHOTOGRAPHER
       },
       select: {
         id: true,
@@ -64,12 +66,6 @@ export const addPhoto = async (req, res) => {
 
     if (!photographer) {
       return res.status(404).json({ error: "Photographer not found" });
-    }
-
-    if (photographer.user_type !== "PHOTOGRAPHER") {
-      return res.status(403).json({
-        error: "The specified user is not a photographer"
-      });
     }
 
     const newPhoto = await prisma.photo.create({
