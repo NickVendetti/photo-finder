@@ -8,13 +8,13 @@ import {
   getUserProfile,
   updateUserProfile,
 } from "../controllers/userController.js";
-import { protect } from "../middleware/authMiddleware.js";
+// import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
 // protect with the auth middleware!
-router.get("/profile", protect, getUserProfile); 
-router.put("/profile", protect, updateUserProfile);
+// router.get("/profile", protect, getUserProfile);
+// router.put("/profile", protect, updateUserProfile);
 
 // Public routes
 router.get("/", getAllUsers);

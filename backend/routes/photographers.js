@@ -1,27 +1,27 @@
-import express from "express";
-import {
-  getPhotographers,
-  createPhotographer,
-  getPhotographerById,
-  updatePhotographer,
-  deletePhotographer,
-} from "../controllers/photographerController.js"; // Add .js extension for ES module compatibility
+// import express from "express";
+// import {
+//   getPhotographers,
+//   createPhotographer,
+//   getPhotographerById,
+//   updatePhotographer,
+//   deletePhotographer,
+// } from "../controllers/photographerController.js"; // Add .js extension for ES module compatibility
 
-const router = express.Router();
+// const router = express.Router();
 
-// GET all photographers
-router.get("/", getPhotographers);
+// // GET all photographers
+// router.get("/", getPhotographers);
 
-// GET photographer by ID
-router.get("/:id", getPhotographerById);
+// // GET photographer by ID
+// router.get("/:id", getPhotographerById);
 
-// POST a new photographer
-router.post("/", createPhotographer);
+// // POST a new photographer
+// router.post("/", createPhotographer);
 
-// Update photographer
-router.put("/:id", updatePhotographer);
+// // Update photographer
+// router.put("/:id", updatePhotographer);
 
-// Delete photographer
-router.delete("/:id", deletePhotographer);
+// // Delete photographer
+// router.delete("/:id", deletePhotographer);
 
-export default router;
+// export default router;
