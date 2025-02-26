@@ -31,6 +31,7 @@ model Photo {
   id          Int      @id @default(autoincrement())
   user_id     Int
   image       String
+  photo_type  String
   title       String?  @db.VarChar(200)
   description String?  @db.Text
   created_at  DateTime @default(now())
