@@ -24,12 +24,14 @@ export default function Login() {
 
       login(response.user, response.token);
       if (response.user.user_type === "PHOTOGRAPHER") {
+        console.log("is photogreapher")
         navigate("/profile-dashboard"); // Photographer dashboard
       } else {
         navigate("/discover"); // Regular users go to discovery page
       }
       // eslint-disable-next-line no-unused-vars
     } catch (err) {
+      console.log("error occured", err)
       setError("Invalid email or password. Please try again.");
     } finally {
       setIsLoading(false);

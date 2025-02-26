@@ -47,7 +47,7 @@ export const getByPhotographerId = async (req, res) => {
 //
 export const addPhoto = async (req, res) => {
   try {
-    const { photographer_id, image } = req.body;
+    const { photographer_id, image, photo_type } = req.body;
 
     if (!photographer_id) {
       return res.status(400).json({ error: "Photographer ID is required" });
@@ -70,8 +70,9 @@ export const addPhoto = async (req, res) => {
 
     const newPhoto = await prisma.photo.create({
       data: {
-        user_id: parseInt(photographer_id), // Make sure to parse the ID to an integer
-        image // Using image_url as per our schema
+        user_id: parseInt(photographer_id), 
+        image,
+        photo_type
       },
       include: {
         user: {
@@ -98,25 +99,19 @@ export const addPhoto = async (req, res) => {
   }
 };
 
-// addPhoto
-// async (req, res) => {
-//   try {
-//     const { userId, image } = req.body;
+export const deleteById = async (req, res) => {
+  const { photo_id } = req.params;
 
-//     if (!userId || !image) {
-//       return res.status(400).json({ error: "User ID and image are required." });
-//     }
 
-//     const newPhoto = await prismaClient.photo.create({
-//       data: {
-//         image,
-//         userId: parseInt(userId)
-//       }
-//     });
 
-//     res.json({ success: true, photo: newPhoto });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: "Failed to upload image." });
-//   }
-// });
+  const result = await prisma.photo.delete({
+    where: {
+      id: Number(photo_id)
+    }
+  })
+
+  res.json({
+    success: true,
+    result: result
+  });
+};

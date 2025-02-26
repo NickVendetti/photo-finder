@@ -53,9 +53,7 @@ export const AuthProvider = ({ children }) => {
     setUserType(decodedToken.user_type);
     setUser(userData);
 
-
-
-    const photographerId = user.user_type == "PHOTOGRAPHER" ? user.id : null;
+    const photographerId = decodedToken.user_type == "PHOTOGRAPHER" ? decodedToken.id : null;
     setPhotographerId(photographerId);
   };
 

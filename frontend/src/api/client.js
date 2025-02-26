@@ -90,12 +90,24 @@ export async function fetchPhotographerDetails(photographerId) {
  * @param {string} image - The image file (base64 or file object).
  * @returns {Promise<Object>} - Upload response.
  */
-export async function uploadPhoto(photographerId, image) {
+export async function uploadPhoto(photographerId, image, photoType) {
   try {
     const response = await axios.post(`${API_BASE_URL}/photos/upload`, {
       photographer_id: photographerId,
       image,
+      photo_type: photoType
     });
+
+    return response.data;
+  } catch (error) {
+    console.error("Upload failed:", error);
+    throw error;
+  }
+}
+
+export async function deletePhoto(photoId) {
+  try {
+    const response = await axios.delete(`${API_BASE_URL}/photos/${photoId}`);
 
     return response.data;
   } catch (error) {
