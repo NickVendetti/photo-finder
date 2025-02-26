@@ -13,10 +13,10 @@ export const getAllPhotos = async (req, res) => {
             id: true,
             username: true,
             email: true,
-            user_type: true
-          }
-        }
-      }
+            user_type: true,
+          },
+        },
+      },
     });
 
     res.json({ images: photos });
@@ -33,7 +33,7 @@ export const getByPhotographerId = async (req, res) => {
   try {
     const photographer_id = parseInt(req.params.user_id);
     const photos = await prisma.photo.findMany({
-      where: { user_id: photographer_id }
+      where: { user_id: photographer_id },
     });
     res.json({ success: true, photos });
   } catch (error) {
@@ -56,12 +56,12 @@ export const addPhoto = async (req, res) => {
     const photographer = await prisma.user.findUnique({
       where: {
         id: parseInt(photographer_id),
-        user_type: UserType.PHOTOGRAPHER
+        user_type: UserType.PHOTOGRAPHER,
       },
       select: {
         id: true,
-        user_type: true
-      }
+        user_type: true,
+      },
     });
 
     if (!photographer) {
@@ -70,9 +70,9 @@ export const addPhoto = async (req, res) => {
 
     const newPhoto = await prisma.photo.create({
       data: {
-        user_id: parseInt(photographer_id), 
+        user_id: parseInt(photographer_id),
         image,
-        photo_type
+        photo_type,
       },
       include: {
         user: {
@@ -80,38 +80,54 @@ export const addPhoto = async (req, res) => {
             id: true,
             username: true,
             email: true,
-            user_type: true
-          }
-        }
-      }
+            user_type: true,
+          },
+        },
+      },
     });
 
     res.json({
       success: true,
-      photo: newPhoto
+      photo: newPhoto,
     });
   } catch (error) {
     console.error("Error adding photo:", error);
     res.status(500).json({
       error: "Failed to create photo",
-      details: error.message
+      details: error.message,
     });
   }
 };
 
 export const deleteById = async (req, res) => {
-  const { photo_id } = req.params;
+  try {
+    const { photo_id } = req.params;
 
-
-
-  const result = await prisma.photo.delete({
-    where: {
-      id: Number(photo_id)
+    if (!photo_id) {
+      return res.status(400).json({ error: "Photo ID is required" });
     }
-  })
 
-  res.json({
-    success: true,
-    result: result
-  });
+    const result = await prisma.photo.delete({
+      where: {
+        id: Number(photo_id),
+      },
+    });
+
+    res.json({
+      success: true,
+      result: result,
+    });
+  } catch (error) {
+    console.error("Error deleting photo:", error);
+
+    // Check if it's a "Record not found" error
+    if (error.code === "P2025") {
+      return res.status(404).json({ error: "Photo not found" });
+    }
+
+    res.status(500).json({
+      error: "Failed to delete photo",
+      details: error.message,
+    });
+  }
 };
