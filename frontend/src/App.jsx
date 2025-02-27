@@ -1,14 +1,14 @@
 import { Routes, Route } from "react-router-dom";
 import DiscoveryPage from "./pages/DiscoveryPage";
 import PhotoDetailsPage from "./pages/PhotoDetailsPage";
-import Home from "./pages/Home";
+import Home from "./pages/Home/Home";
 import Register from "./pages/Register";
 import Login from "./pages/Login/Login";
 import BookingManager from "./pages/BookingManager";
 import ProfileDashboard from "./pages/PhotographerDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useAuth } from "./context/AuthContext";
-import Booking from "./pages/Booking";
+import Booking from "./pages/Booking/Booking";
 import Navbar from "./components/Navbar";
 import "./index.css";
 function App() {
