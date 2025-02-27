@@ -28,7 +28,6 @@ export async function loginUser(formData) {
   }
 }
 
-
 /**
  * Fetch all photos
  * @returns {Promise<Array>} - List of photos.
@@ -39,7 +38,7 @@ export async function fetchAllPhotos() {
     if (!response.ok) throw new Error("Failed to fetch photos");
 
     const data = await response.json();
-    return data.images.map(photo => ({
+    return data.images.map((photo) => ({
       ...photo,
       imageUrl: `${photo.image}`,
     }));
@@ -74,7 +73,9 @@ export async function fetchPhotoDetails(photoId) {
  */
 export async function fetchPhotographerDetails(photographerId) {
   try {
-    const response = await fetch(`${API_BASE_URL}/photographers/${photographerId}`);
+    const response = await fetch(
+      `${API_BASE_URL}/photographers/${photographerId}`
+    );
     if (!response.ok) throw new Error("Failed to fetch photographer details");
 
     return await response.json();
@@ -95,7 +96,7 @@ export async function uploadPhoto(photographerId, image, photoType) {
     const response = await axios.post(`${API_BASE_URL}/photos/upload`, {
       photographer_id: photographerId,
       image,
-      photo_type: photoType
+      photo_type: photoType,
     });
 
     return response.data;

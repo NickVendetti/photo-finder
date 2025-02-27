@@ -1,9 +1,8 @@
 import { useState } from "react";
 import "./Booking.css";
 import { useNavigate, useParams } from "react-router-dom";
-import bookingApi from "../api/bookingApi";
-import { useAuth} from "../context/AuthContext";
-
+import bookingApi from "../../api/bookingApi";
+import { useAuth } from "../../context/AuthContext";
 
 function Booking() {
   const { photographer_id } = useParams();
@@ -32,7 +31,7 @@ function Booking() {
       const booking = await bookingApi.createBooking({
         ...formData,
         photographer_id: Number(photographer_id),
-        user_id: Number(user.id)
+        user_id: Number(user.id),
       });
 
       if (booking) {
@@ -53,8 +52,11 @@ function Booking() {
 
         <form onSubmit={handleSubmit} className="booking-form">
           <div className="form-group">
-            <label className="form-label">Session Type</label>
+            <label htmlFor="booking-type" className="form-label">
+              Session Type
+            </label>
             <select
+              id="booking-type"
               name="bookingType"
               value={formData.bookingType}
               onChange={handleChange}
@@ -71,8 +73,11 @@ function Booking() {
           </div>
 
           <div className="form-group">
-            <label className="form-label">Select Date</label>
+            <label htmlFor="booking-date" className="form-label">
+              Select Date
+            </label>
             <input
+              id="booking-date"
               type="date"
               name="date"
               value={formData.date}
@@ -83,8 +88,11 @@ function Booking() {
           </div>
 
           <div className="form-group">
-            <label className="form-label">Select Time</label>
+            <label htmlFor="booking-time" className="form-label">
+              Select Time
+            </label>
             <input
+              id="booking-time"
               type="time"
               name="time"
               value={formData.time}

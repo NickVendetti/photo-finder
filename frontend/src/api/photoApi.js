@@ -37,17 +37,18 @@ const photosApi = {
   createImage: async (imageData) => {
     try {
       const formData = new FormData();
-      
+
       // If imageData contains a file object, append it to formData
       if (imageData.file) {
-        formData.append('file', imageData.file);
+        formData.append("file", imageData.file);
       }
-      
+
       // Add other image metadata to formData
-      if (imageData.title) formData.append('title', imageData.title);
-      if (imageData.description) formData.append('description', imageData.description);
+      if (imageData.title) formData.append("title", imageData.title);
+      if (imageData.description)
+        formData.append("description", imageData.description);
       if (imageData.tags && Array.isArray(imageData.tags)) {
-        imageData.tags.forEach(tag => formData.append('tags[]', tag));
+        imageData.tags.forEach((tag) => formData.append("tags[]", tag));
       }
 
       const response = await fetch(FullPhotosApiUrl, {
@@ -56,7 +57,7 @@ const photosApi = {
         // Note: Don't set Content-Type header when using FormData
         // It will be set automatically including the boundary
       });
-      
+
       return handleResponse(response);
     } catch (error) {
       console.error("Error creating image:", error);

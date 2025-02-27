@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
-import { loginUser } from "../api/client";
+import { useAuth } from "../../context/AuthContext";
+import { loginUser } from "../../api/client";
 
 export default function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -24,14 +24,12 @@ export default function Login() {
 
       login(response.user, response.token);
       if (response.user.user_type === "PHOTOGRAPHER") {
-        console.log("is photogreapher")
-        navigate("/profile-dashboard"); // Photographer dashboard
+        navigate("/profile-dashboard");
       } else {
-        navigate("/discover"); // Regular users go to discovery page
+        navigate("/discover");
       }
-      // eslint-disable-next-line no-unused-vars
     } catch (err) {
-      console.log("error occured", err)
+      console.error("error occured", err);
       setError("Invalid email or password. Please try again.");
     } finally {
       setIsLoading(false);

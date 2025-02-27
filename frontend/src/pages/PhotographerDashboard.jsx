@@ -15,7 +15,7 @@ function ProfileDashboard() {
   const { photographerId } = useAuth();
   const [image, setImage] = useState(null);
   const [fileName, setFileName] = useState("");
-  const [preview, setPreview] = useState(null);
+  const [, setPreview] = useState(null);
   const [uploadedImages, setUploadedImages] = useState([]);
   const [imageUrl, setImageUrl] = useState("");
   const [photoType, setPhotoType] = useState("");
@@ -38,7 +38,6 @@ function ProfileDashboard() {
   }, []);
 
   const onPhotoTypeChange = (e) => {
-    console.log('fuck', e.target.value)
     setPhotoType(e.target.value);
   };
 
@@ -50,9 +49,8 @@ function ProfileDashboard() {
       reader.onloadend = () => {
         setImage(reader.result);
         setPreview(reader.result);
-        setFileName(file.name)
+        setFileName(file.name);
       };
-      
     }
   };
 
@@ -68,7 +66,7 @@ function ProfileDashboard() {
           { key: res.photo.id, img: res.photo.image },
         ]);
         setImageUrl("");
-        setFileName("")
+        setFileName("");
       }
     } catch (err) {
       console.error("Upload failed:", err);
@@ -76,8 +74,7 @@ function ProfileDashboard() {
   };
 
   const handleDelete = async (id) => {
-    const result = await deletePhoto(id);
-    console.log(result);
+    await deletePhoto(id);
     setUploadedImages(uploadedImages.filter((image) => image.key !== id));
   };
 
