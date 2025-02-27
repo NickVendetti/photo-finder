@@ -23,7 +23,8 @@ export const AuthProvider = ({ children }) => {
             setIsAuthenticated(true);
             setUserType(decodedToken.user_type);
 
-            const userId = decodedToken.user_type == "PHOTOGRAPHER" ? decodedToken.id : null;
+            const userId =
+              decodedToken.user_type == "PHOTOGRAPHER" ? decodedToken.id : null;
             setPhotographerId(userId);
             const userData = localStorage.getItem("user");
             if (userData) {
@@ -53,7 +54,8 @@ export const AuthProvider = ({ children }) => {
     setUserType(decodedToken.user_type);
     setUser(userData);
 
-    const photographerId = decodedToken.user_type == "PHOTOGRAPHER" ? decodedToken.id : null;
+    const photographerId =
+      decodedToken.user_type == "PHOTOGRAPHER" ? decodedToken.id : null;
     setPhotographerId(photographerId);
   };
 

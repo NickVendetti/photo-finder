@@ -3,7 +3,7 @@ import DiscoveryPage from "./pages/DiscoveryPage";
 import PhotoDetailsPage from "./pages/PhotoDetailsPage";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
-import Login from "./pages/Login";
+import Login from "./pages/Login/Login";
 import BookingManager from "./pages/BookingManager";
 import ProfileDashboard from "./pages/PhotographerDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
