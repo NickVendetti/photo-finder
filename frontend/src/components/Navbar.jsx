@@ -1,46 +1,64 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import "./Navbar.css";
+
 const Navbar = () => {
   const { isAuthenticated, userType, logout } = useAuth();
 
   return (
-    <nav className="navbar">
-      <div className="nav-container">
-        <Link to="/" className="logo">
-          📸 PhotoApp
-        </Link>
-
-        <ul className="nav-links">
-          {isAuthenticated && userType === "USER" && (
-            <li>
-              <Link to="/discover">Discover</Link>
-            </li>
-          )}
-
-          {isAuthenticated && userType === "PHOTOGRAPHER" && (
-            <div className="nav-links">
-              <li>
-                <Link to="/profile-dashboard">Photographer Dashboard</Link>
-              </li>
-              <li>
-                <Link to="/manage-bookings">Manage Bookings</Link>
-              </li>
+    <nav className="bg-white shadow-md">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-16">
+          <div className="flex">
+            <Link to="/" className="flex-shrink-0 flex items-center">
+              <span className="text-2xl font-bold text-primary-600">
+                📸 PhotoBook
+              </span>
+            </Link>
+          </div>
+          <div className="flex items-center">
+            <div className="hidden md:ml-6 md:flex md:space-x-8">
+              {isAuthenticated && userType === "USER" && (
+                <Link
+                  to="/discover"
+                  className="text-neutral-600 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Discover
+                </Link>
+              )}
+              {isAuthenticated && userType === "PHOTOGRAPHER" && (
+                <>
+                  <Link
+                    to="/profile-dashboard"
+                    className="text-neutral-600 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                    Photographer Dashboard
+                  </Link>
+                  <Link
+                    to="/manage-bookings"
+                    className="text-neutral-600 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                    Manage Bookings
+                  </Link>
+                </>
+              )}
+              {isAuthenticated ? (
+                <button
+                  onClick={logout}
+                  className="text-neutral-600 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Logout
+                </button>
+              ) : (
+                <Link
+                  to="/login"
+                  className="text-neutral-600 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Login
+                </Link>
+              )}
             </div>
-          )}
-
-          {isAuthenticated ? (
-            <li>
-              <button className="logout-btn" onClick={logout}>
-                Logout
-              </button>
-            </li>
-          ) : (
-            <li>
-              <Link to="/login">Login</Link>
-            </li>
-          )}
-        </ul>
+          </div>
+        </div>
       </div>
     </nav>
   );
