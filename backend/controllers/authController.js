@@ -9,37 +9,63 @@ const JWT_SECRET = process.env.JWT_SECRET || "supersecretkey";
 
 /** Register New User */
 export const registerUser = async (req, res) => {
-  console.log("we made it here", req);
   try {
     const { username, email, password, user_type } = req.body;
 
+    // Validate user_type
     const userType =
-      user_type == "photographer"
-        ? UserType.PHOTOGRAPHER
-        : user_type == "user"
-        ? UserType.USER
+      user_type === "photographer"
+        ? "PHOTOGRAPHER"
+        : user_type === "user"
+        ? "USER"
         : null;
+
     if (!userType) {
-      res.status(401).json({ error: "Invalid user_type on user" });
-      return;
+      return res.status(400).json({ message: "Invalid user_type on user" });
     }
 
+    // Check if user with the same email already exists
+    const existingUser = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (existingUser) {
+      return res
+        .status(409)
+        .json({ message: "An account with this email already exists." });
+    }
+
+    // Hash the password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
+    // Create user in DB
     const user = await prisma.user.create({
       data: {
         username,
         email,
-        password: hashedPassword, // Store hashed password
+        password: hashedPassword,
         user_type: userType,
       },
+      select: { id: true, username: true, email: true, user_type: true }, // Exclude password
     });
 
-    res.status(201).json({ message: "User registered successfully", user });
+    return res
+      .status(201)
+      .json({ message: "User registered successfully", user });
   } catch (error) {
-    console.error(" Registration Error:", error);
-    res.status(500).json({ error: "Registration failed" });
+    console.error("Registration Error:", error);
+
+    // Handle Prisma unique constraint error
+    if (error.code === "P2002") {
+      return res
+        .status(409)
+        .json({ message: "An account with this email already exists." });
+    }
+
+    return res
+      .status(500)
+      .json({ message: "Registration failed. Please try again later." });
   }
 };
 
