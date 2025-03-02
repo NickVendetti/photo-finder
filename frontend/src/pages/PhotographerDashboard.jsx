@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useAuth } from "../context/AuthContext";
 import { deletePhoto, uploadPhoto } from "../api/client";
 import photoApi from "../api/photoApi";
-import "../index.css";
 
 const options = [
   { value: "wedding", label: "Wedding" },
@@ -19,6 +18,9 @@ function ProfileDashboard() {
   const [uploadedImages, setUploadedImages] = useState([]);
   const [imageUrl, setImageUrl] = useState("");
   const [photoType, setPhotoType] = useState("");
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadSuccess, setUploadSuccess] = useState(false);
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     const loadPhotosForUser = async () => {
@@ -35,7 +37,7 @@ function ProfileDashboard() {
     };
 
     loadPhotosForUser();
-  }, []);
+  }, [photographerId]);
 
   const onPhotoTypeChange = (e) => {
     setPhotoType(e.target.value);
@@ -59,6 +61,7 @@ function ProfileDashboard() {
     if (!image) return alert("Please select an image to upload.");
 
     try {
+      setIsUploading(true);
       const res = await uploadPhoto(photographerId, image, photoType);
       if (res.success) {
         setUploadedImages([
@@ -67,9 +70,21 @@ function ProfileDashboard() {
         ]);
         setImageUrl("");
         setFileName("");
+        setImage(null);
+        setPreview(null);
+        setPhotoType("");
+        // Clear the file input
+        if (fileInputRef.current) {
+          fileInputRef.current.value = "";
+        }
+        setUploadSuccess(true);
+        setTimeout(() => setUploadSuccess(false), 3000); // Hide success message after 3 seconds
       }
     } catch (err) {
       console.error("Upload failed:", err);
+      alert("Upload failed. Please try again.");
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -84,10 +99,9 @@ function ProfileDashboard() {
       <form onSubmit={handleUpload} className="mb-4">
         <input
           type="file"
-          value={imageUrl}
-          accept="image/jpg"
+          ref={fileInputRef}
+          accept="image/*"
           onChange={handleFileChange}
-          placeholder="Enter image URL"
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
         <select onChange={onPhotoTypeChange}>
@@ -98,11 +112,19 @@ function ProfileDashboard() {
           ))}
         </select>
         {fileName && <p>File to upload: {fileName}</p>}
+        {uploadSuccess && (
+          <div className="mt-2 text-green-600">
+            Image uploaded successfully!
+          </div>
+        )}
         <button
           type="submit"
-          className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          disabled={isUploading || !image}
+          className={`mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${
+            (isUploading || !image) && "opacity-50 cursor-not-allowed"
+          }`}
         >
-          Upload
+          {isUploading ? "Uploading..." : "Upload"}
         </button>
       </form>
       <div className="grid grid-cols-3 gap-4">

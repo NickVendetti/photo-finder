@@ -27,7 +27,7 @@ describe("Login Component", () => {
   it("renders correctly with all form elements", () => {
     render(<Login />);
 
-    expect(screen.getByText("Login to PhotoApp")).toBeInTheDocument();
+    expect(screen.getByText("Login to PhotoBook")).toBeInTheDocument();
     expect(screen.getByPlaceholderText("Email")).toBeInTheDocument();
     expect(screen.getByPlaceholderText("Password")).toBeInTheDocument();
     expect(screen.getByText("Login")).toBeInTheDocument();
