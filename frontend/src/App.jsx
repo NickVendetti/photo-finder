@@ -1,6 +1,5 @@
 import { Routes, Route } from "react-router-dom";
 import DiscoveryPage from "./pages/DiscoveryPage";
-import PhotoDetailsPage from "./pages/PhotoDetailsPage";
 import Home from "./pages/Home/Home";
 import Register from "./pages/Register";
 import Login from "./pages/Login/Login";
@@ -53,17 +52,6 @@ function App() {
           }
         />
 
-        <Route
-          path="/photo/:photoId"
-          element={
-            <ProtectedRoute
-              element={<PhotoDetailsPage />}
-              allowedUserTypes={["USER"]}
-              authenticationStatus={isAuthenticated}
-              userType={userType}
-            />
-          }
-        />
         <Route path="/register" element={<Register />} />
         <Route
           path="/profile-dashboard"

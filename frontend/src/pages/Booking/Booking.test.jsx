@@ -11,7 +11,7 @@ vi.mock("react-router-dom");
 
 describe("Booking Component", () => {
   const mockNavigate = vi.fn();
-  const mockUser = { id: "123" };
+  const mockUser = { id: 123 };
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -31,17 +31,19 @@ describe("Booking Component", () => {
 
     expect(screen.getByText("Book Your Session")).toBeInTheDocument();
     expect(screen.getByText("Photographer #456")).toBeInTheDocument();
-    expect(screen.getByText("Session Type")).toBeInTheDocument();
-    expect(screen.getByText("Select Date")).toBeInTheDocument();
-    expect(screen.getByText("Select Time")).toBeInTheDocument();
-    expect(screen.getByText("Confirm Booking")).toBeInTheDocument();
+    expect(screen.getByLabelText("Session Type")).toBeInTheDocument();
+    expect(screen.getByLabelText("Select Date")).toBeInTheDocument();
+    expect(screen.getByLabelText("Select Time")).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /confirm booking/i })
+    ).toBeInTheDocument();
   });
 
   it("displays all booking types in the dropdown", () => {
     render(<Booking />);
 
-    const selectElement = screen.getByRole("combobox");
-    expect(selectElement).toBeInTheDocument();
+    const typeSelect = screen.getByLabelText("Session Type");
+    expect(typeSelect).toBeInTheDocument();
 
     expect(screen.getByText("Portrait Session (1 hour)")).toBeInTheDocument();
     expect(screen.getByText("Family Session (2 hours)")).toBeInTheDocument();
@@ -49,7 +51,7 @@ describe("Booking Component", () => {
     expect(screen.getByText("Wedding Package (8 hours)")).toBeInTheDocument();
   });
 
-  it("updates form state when inputs change", () => {
+  it("updates form state when inputs change", async () => {
     render(<Booking />);
 
     const typeSelect = screen.getByLabelText("Session Type");
@@ -60,25 +62,30 @@ describe("Booking Component", () => {
     fireEvent.change(dateInput, { target: { value: "2025-03-15" } });
     expect(dateInput.value).toBe("2025-03-15");
 
-    const timeInput = screen.getByLabelText("Select Time");
-    fireEvent.change(timeInput, { target: { value: "14:30" } });
-    expect(timeInput.value).toBe("14:30");
+    await vi.waitFor(() => {
+      const timeInput = screen.getByLabelText("Select Time");
+      fireEvent.change(timeInput, { target: { value: "14:30" } });
+      expect(timeInput.value).toBe("14:30");
+    });
   });
 
   it("submits the form with correct data and navigates on success", async () => {
     render(<Booking />);
 
-    fireEvent.change(screen.getByRole("combobox"), {
+    fireEvent.change(screen.getByLabelText("Session Type"), {
       target: { value: "family" },
     });
     fireEvent.change(screen.getByLabelText("Select Date"), {
       target: { value: "2025-04-20" },
     });
-    fireEvent.change(screen.getByLabelText("Select Time"), {
-      target: { value: "10:00" },
+
+    await vi.waitFor(() => {
+      fireEvent.change(screen.getByLabelText("Select Time"), {
+        target: { value: "10:00" },
+      });
     });
 
-    fireEvent.click(screen.getByText("Confirm Booking"));
+    fireEvent.click(screen.getByRole("button", { name: /confirm booking/i }));
 
     expect(bookingApi.createBooking).toHaveBeenCalledWith({
       bookingType: "family",

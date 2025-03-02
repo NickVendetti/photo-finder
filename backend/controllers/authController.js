@@ -2,17 +2,14 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import prisma from "../prisma/client.js";
 import dotenv from "dotenv";
-import { UserType } from "@prisma/client";
 dotenv.config();
 
 const JWT_SECRET = process.env.JWT_SECRET || "supersecretkey";
 
-/** Register New User */
 export const registerUser = async (req, res) => {
   try {
     const { username, email, password, user_type } = req.body;
 
-    // Validate user_type
     const userType =
       user_type === "photographer"
         ? "PHOTOGRAPHER"
@@ -24,7 +21,6 @@ export const registerUser = async (req, res) => {
       return res.status(400).json({ message: "Invalid user_type on user" });
     }
 
-    // Check if user with the same email already exists
     const existingUser = await prisma.user.findUnique({
       where: { email },
     });
@@ -35,11 +31,9 @@ export const registerUser = async (req, res) => {
         .json({ message: "An account with this email already exists." });
     }
 
-    // Hash the password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Create user in DB
     const user = await prisma.user.create({
       data: {
         username,
@@ -47,7 +41,7 @@ export const registerUser = async (req, res) => {
         password: hashedPassword,
         user_type: userType,
       },
-      select: { id: true, username: true, email: true, user_type: true }, // Exclude password
+      select: { id: true, username: true, email: true, user_type: true },
     });
 
     return res
@@ -56,7 +50,6 @@ export const registerUser = async (req, res) => {
   } catch (error) {
     console.error("Registration Error:", error);
 
-    // Handle Prisma unique constraint error
     if (error.code === "P2002") {
       return res
         .status(409)
