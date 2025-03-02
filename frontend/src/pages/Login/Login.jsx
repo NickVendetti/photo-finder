@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
@@ -42,7 +40,7 @@ export default function Login() {
     <div className="min-h-screen bg-neutral-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-neutral-900">
-          Login to PhotoApp
+          Login to PhotoBook
         </h2>
       </div>
 
@@ -124,6 +122,8 @@ export default function Login() {
             <div className="mt-6">
               <Link
                 to="/register"
+                role="link"
+                aria-label="Sign up"
                 className="w-full inline-flex justify-center py-2 px-4 border border-neutral-300 rounded-md shadow-sm bg-white text-sm font-medium text-neutral-500 hover:bg-neutral-50"
               >
                 Sign up

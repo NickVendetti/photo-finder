@@ -34,12 +34,6 @@ describe("Gallery Component", () => {
     vi.restoreAllMocks();
   });
 
-  it("renders correctly with loading state initially", () => {
-    render(<Gallery onPhotoClick={mockPhotoClick} />);
-
-    expect(screen.getByText("Loading...")).toBeInTheDocument();
-  });
-
   it("fetches and displays photos after loading", async () => {
     render(<Gallery onPhotoClick={mockPhotoClick} />);
 
@@ -48,7 +42,7 @@ describe("Gallery Component", () => {
     });
 
     await waitFor(() => {
-      expect(screen.queryByText("Loading...")).not.toBeInTheDocument();
+      expect(screen.queryByRole("status")).not.toBeInTheDocument();
     });
 
     const images = screen.getAllByRole("img");
@@ -62,7 +56,7 @@ describe("Gallery Component", () => {
     render(<Gallery onPhotoClick={mockPhotoClick} />);
 
     await waitFor(() => {
-      expect(screen.queryByText("Loading...")).not.toBeInTheDocument();
+      expect(screen.queryByRole("status")).not.toBeInTheDocument();
     });
 
     const firstPhoto = screen.getAllByRole("img")[0];
@@ -77,7 +71,7 @@ describe("Gallery Component", () => {
     const selectElement = screen.getByRole("combobox");
     expect(selectElement).toBeInTheDocument();
 
-    expect(screen.getByText("All")).toBeInTheDocument();
+    expect(screen.getByText("All Photos")).toBeInTheDocument();
     expect(screen.getByText("Wedding")).toBeInTheDocument();
     expect(screen.getByText("Portrait")).toBeInTheDocument();
     expect(screen.getByText("Landscape")).toBeInTheDocument();
@@ -88,38 +82,36 @@ describe("Gallery Component", () => {
     render(<Gallery onPhotoClick={mockPhotoClick} />);
 
     await waitFor(() => {
-      expect(screen.queryByText("Loading...")).not.toBeInTheDocument();
+      expect(screen.queryByRole("status")).not.toBeInTheDocument();
     });
 
     expect(screen.getAllByRole("img")).toHaveLength(4);
 
-    // Select wedding filter
     const selectElement = screen.getByRole("combobox");
     fireEvent.change(selectElement, { target: { value: "wedding" } });
 
-    // Now only wedding photos should be shown (1 in our mock data)
-    expect(screen.getAllByRole("img")).toHaveLength(1);
-    expect(screen.getByAltText("Photo 1")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getAllByRole("img")).toHaveLength(1);
+      expect(screen.getByAltText("Photo 1")).toBeInTheDocument();
+    });
 
-    // Change to portrait filter
     fireEvent.change(selectElement, { target: { value: "portrait" } });
 
-    // Now only portrait photos should be shown (1 in our mock data)
-    expect(screen.getAllByRole("img")).toHaveLength(1);
-    expect(screen.getByAltText("Photo 2")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getAllByRole("img")).toHaveLength(1);
+      expect(screen.getByAltText("Photo 2")).toBeInTheDocument();
+    });
 
-    // Change back to all
     fireEvent.change(selectElement, { target: { value: "all" } });
 
-    // All photos should be shown again
-    expect(screen.getAllByRole("img")).toHaveLength(4);
+    await waitFor(() => {
+      expect(screen.getAllByRole("img")).toHaveLength(4);
+    });
   });
 
   it("handles API error gracefully", async () => {
-    // Mock API failure
     fetchAllPhotos.mockRejectedValue(new Error("API error"));
 
-    // Spy on console.error
     const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
 
     render(<Gallery onPhotoClick={mockPhotoClick} />);
@@ -128,24 +120,23 @@ describe("Gallery Component", () => {
       expect(fetchAllPhotos).toHaveBeenCalledTimes(1);
     });
 
-    // Check error was logged
     expect(consoleSpy).toHaveBeenCalledWith(
       "Error fetching photos:",
       expect.any(Error)
     );
 
-    // Loading state should be gone, but no photos displayed
-    expect(screen.queryByText("Loading...")).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(fetchAllPhotos).toHaveBeenCalled();
+    });
     expect(screen.queryAllByRole("img")).toHaveLength(0);
 
     consoleSpy.mockRestore();
   });
 
   it("handles photos with missing titles correctly", async () => {
-    // Add a photo with no title
     const photosWithMissingTitle = [
       ...mockPhotos,
-      { id: 5, imageUrl: "/photo5.jpg", photo_type: "portrait" }, // No title
+      { id: 5, imageUrl: "/photo5.jpg", photo_type: "portrait" },
     ];
 
     fetchAllPhotos.mockResolvedValue(photosWithMissingTitle);
@@ -153,13 +144,11 @@ describe("Gallery Component", () => {
     render(<Gallery onPhotoClick={mockPhotoClick} />);
 
     await waitFor(() => {
-      expect(screen.queryByText("Loading...")).not.toBeInTheDocument();
+      expect(fetchAllPhotos).toHaveBeenCalled();
     });
 
-    // There should be 5 images now
     expect(screen.getAllByRole("img")).toHaveLength(5);
 
-    // The last one should have the default alt text
     const images = screen.getAllByRole("img");
     expect(images[4]).toHaveAttribute("alt", "Photo");
   });

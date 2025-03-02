@@ -23,9 +23,9 @@ function LandingPage() {
       login(data.user);
 
       if (data.user.user_type === "PHOTOGRAPHER") {
-        navigate("/profile-dashboard"); // Photographer dashboard
+        navigate("/profile-dashboard");
       } else {
-        navigate("/discover"); // Regular users go to discovery page
+        navigate("/discover");
       }
       // eslint-disable-next-line no-unused-vars
     } catch (err) {
