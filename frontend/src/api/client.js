@@ -133,7 +133,16 @@ export async function registerUser(formData) {
     });
 
     if (!response.ok) {
-      throw new Error("Registration failed. Please try again.");
+      const errorData = await response.json();
+      if (response.status === 400) {
+        throw new Error(
+          errorData.message || "Invalid input. Please check your information."
+        );
+      } else if (response.status === 409) {
+        throw new Error("An account with this email already exists.");
+      } else {
+        throw new Error("Registration failed. Please try again later.");
+      }
     }
 
     return await response.json();

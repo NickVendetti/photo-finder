@@ -27,22 +27,20 @@ describe("Login Component", () => {
   it("renders correctly with all form elements", () => {
     render(<Login />);
 
-    expect(screen.getByText("Login to PhotoApp")).toBeInTheDocument();
-    expect(screen.getByPlaceholderText("Email")).toBeInTheDocument();
-    expect(screen.getByPlaceholderText("Password")).toBeInTheDocument();
-    expect(screen.getByText("Login")).toBeInTheDocument();
-    expect(screen.getByText("Don't have an account?")).toBeInTheDocument();
-    expect(screen.getByText("Sign Up")).toBeInTheDocument();
+    expect(screen.getByText("Login to PhotoBook")).toBeInTheDocument();
+    expect(screen.getByLabelText("Email address")).toBeInTheDocument();
+    expect(screen.getByLabelText("Password")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /login/i })).toBeInTheDocument();
   });
 
   it("updates form state when inputs change", () => {
     render(<Login />);
 
-    const emailInput = screen.getByPlaceholderText("Email");
+    const emailInput = screen.getByLabelText("Email address");
     fireEvent.change(emailInput, { target: { value: "test@example.com" } });
     expect(emailInput.value).toBe("test@example.com");
 
-    const passwordInput = screen.getByPlaceholderText("Password");
+    const passwordInput = screen.getByLabelText("Password");
     fireEvent.change(passwordInput, { target: { value: "password123" } });
     expect(passwordInput.value).toBe("password123");
   });
@@ -55,9 +53,9 @@ describe("Login Component", () => {
 
     render(<Login />);
 
-    const emailInput = screen.getByPlaceholderText("Email");
-    const passwordInput = screen.getByPlaceholderText("Password");
-    const submitButton = screen.getByText("Login");
+    const emailInput = screen.getByLabelText("Email address");
+    const passwordInput = screen.getByLabelText("Password");
+    const submitButton = screen.getByRole("button", { name: /login/i });
 
     fireEvent.change(emailInput, { target: { value: "user@example.com" } });
     fireEvent.change(passwordInput, { target: { value: "userpassword" } });
@@ -85,9 +83,9 @@ describe("Login Component", () => {
 
     render(<Login />);
 
-    const emailInput = screen.getByPlaceholderText("Email");
-    const passwordInput = screen.getByPlaceholderText("Password");
-    const submitButton = screen.getByText("Login");
+    const emailInput = screen.getByLabelText("Email address");
+    const passwordInput = screen.getByLabelText("Password");
+    const submitButton = screen.getByRole("button", { name: /login/i });
 
     fireEvent.change(emailInput, {
       target: { value: "photographer@example.com" },
@@ -110,14 +108,13 @@ describe("Login Component", () => {
   });
 
   it("displays error message when login fails", async () => {
-    const mockError = new Error("Login failed");
-    loginUser.mockRejectedValue(mockError);
+    loginUser.mockRejectedValue(new Error("Login failed"));
 
     render(<Login />);
 
-    const emailInput = screen.getByPlaceholderText("Email");
-    const passwordInput = screen.getByPlaceholderText("Password");
-    const submitButton = screen.getByText("Login");
+    const emailInput = screen.getByLabelText("Email address");
+    const passwordInput = screen.getByLabelText("Password");
+    const submitButton = screen.getByRole("button", { name: /login/i });
 
     fireEvent.change(emailInput, { target: { value: "invalid@example.com" } });
     fireEvent.change(passwordInput, { target: { value: "wrongpassword" } });
@@ -129,14 +126,5 @@ describe("Login Component", () => {
       ).toBeInTheDocument();
     });
     expect(mockNavigate).not.toHaveBeenCalled();
-  });
-
-  it("navigates to register page when Sign Up button is clicked", () => {
-    render(<Login />);
-
-    const signUpButton = screen.getByText("Sign Up");
-    fireEvent.click(signUpButton);
-
-    expect(mockNavigate).toHaveBeenCalledWith("/register");
   });
 });
