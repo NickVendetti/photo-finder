@@ -106,6 +106,7 @@ function Booking() {
       });
 
       if (booking) {
+        alert("Booking is successful! Get ready for your photography session!");
         navigate("/discover");
       }
     } catch (error) {
@@ -212,6 +213,6 @@ function Booking() {
       </div>
     </div>
   );
-}
+} 
 
 export default Booking;
