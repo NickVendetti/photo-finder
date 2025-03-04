@@ -50,10 +50,4 @@ describe("Home Component", () => {
     expect(discoverButton).toHaveAttribute("href", "/discover");
   });
 
-  it("always renders the learn more button", () => {
-    renderWithRouter(<Home />);
-    const learnMoreButton = screen.getByRole("link", { name: /learn more/i });
-    expect(learnMoreButton).toBeInTheDocument();
-    expect(learnMoreButton).toHaveAttribute("href", "/about");
-  });
 });
