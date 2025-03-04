@@ -23,10 +23,7 @@ export default function Home() {
               Discover Photographers
             </Link>
           )}
-          <Link to="/about" className="btn btn-secondary text-lg">
-            Learn More
-          </Link>
-        </div>
+          </div>
       </main>
     </div>
   );
