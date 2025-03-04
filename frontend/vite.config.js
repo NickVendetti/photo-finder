@@ -1,6 +1,5 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import tailwindcss from "@tailwindcss/vite";
 
 const mode = process.env.NODE_ENV || "development";
 const envFile = `.env.${mode}`;
@@ -10,7 +9,7 @@ dotenv.config({ path: envFile });
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [react()],
   build: {
     sourcemap: true,
   },

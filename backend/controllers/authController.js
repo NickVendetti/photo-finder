@@ -2,26 +2,33 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import prisma from "../prisma/client.js";
 import dotenv from "dotenv";
-import { UserType } from "@prisma/client";
 dotenv.config();
 
 const JWT_SECRET = process.env.JWT_SECRET || "supersecretkey";
 
-/** Register New User */
 export const registerUser = async (req, res) => {
-  console.log("we made it here", req);
   try {
     const { username, email, password, user_type } = req.body;
 
     const userType =
-      user_type == "photographer"
-        ? UserType.PHOTOGRAPHER
-        : user_type == "user"
-        ? UserType.USER
+      user_type === "photographer"
+        ? "PHOTOGRAPHER"
+        : user_type === "user"
+        ? "USER"
         : null;
+
     if (!userType) {
-      res.status(401).json({ error: "Invalid user_type on user" });
-      return;
+      return res.status(400).json({ message: "Invalid user_type on user" });
+    }
+
+    const existingUser = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (existingUser) {
+      return res
+        .status(409)
+        .json({ message: "An account with this email already exists." });
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -31,15 +38,27 @@ export const registerUser = async (req, res) => {
       data: {
         username,
         email,
-        password: hashedPassword, // Store hashed password
+        password: hashedPassword,
         user_type: userType,
       },
+      select: { id: true, username: true, email: true, user_type: true },
     });
 
-    res.status(201).json({ message: "User registered successfully", user });
+    return res
+      .status(201)
+      .json({ message: "User registered successfully", user });
   } catch (error) {
-    console.error(" Registration Error:", error);
-    res.status(500).json({ error: "Registration failed" });
+    console.error("Registration Error:", error);
+
+    if (error.code === "P2002") {
+      return res
+        .status(409)
+        .json({ message: "An account with this email already exists." });
+    }
+
+    return res
+      .status(500)
+      .json({ message: "Registration failed. Please try again later." });
   }
 };
 
