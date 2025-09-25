@@ -6,7 +6,7 @@ import Login from "./pages/Login/Login";
 import BookingManager from "./pages/BookingManager";
 import ProfileDashboard from "./pages/PhotographerDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
-import { useAuth } from "./context/AuthContext";
+import { useAuth } from "./hooks/useAuth";
 import Booking from "./pages/Booking/Booking";
 import Navbar from "./components/Navbar";
 

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import { fetchAllPhotos } from "../../api/client";
 import { Camera, Filter } from "lucide-react";
 
@@ -108,6 +109,10 @@ const Gallery = ({ onPhotoClick }) => {
       )}
     </div>
   );
+};
+
+Gallery.propTypes = {
+  onPhotoClick: PropTypes.func.isRequired,
 };
 
 export default Gallery;
