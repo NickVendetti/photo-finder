@@ -2,11 +2,11 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import Booking from "./Booking";
 import bookingApi from "../../api/bookingApi";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../hooks/useAuth";
 import { useNavigate, useParams } from "react-router-dom";
 
 vi.mock("../../api/bookingApi");
-vi.mock("../../context/AuthContext");
+vi.mock("../../hooks/useAuth");
 vi.mock("react-router-dom");
 
 describe("Booking Component", () => {

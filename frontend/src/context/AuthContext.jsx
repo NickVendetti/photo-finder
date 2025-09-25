@@ -1,7 +1,7 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import * as jwt_decode from "jwt-decode";
-
-const AuthContext = createContext(null);
+import { AuthContext } from "./AuthContextProvider";
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -83,10 +83,6 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-  return context;
+AuthProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };

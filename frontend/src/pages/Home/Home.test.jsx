@@ -1,10 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import Home from "./Home";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../hooks/useAuth";
 import { BrowserRouter } from "react-router-dom";
 
-vi.mock("../../context/AuthContext");
+vi.mock("../../hooks/useAuth");
 
 describe("Home Component", () => {
   beforeEach(() => {
