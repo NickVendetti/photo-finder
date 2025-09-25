@@ -13,16 +13,16 @@ export const registerUser = async (req, res) => {
     const userType =
       user_type === "photographer"
         ? "PHOTOGRAPHER"
-        : user_type === "user"
-        ? "USER"
-        : null;
+        : user_type === "user" ? "USER" : null;
 
     if (!userType) {
       return res.status(400).json({ message: "Invalid user_type on user" });
     }
 
+    await prisma.$queryRaw`SELECT * FROM "User"`;
+
     const existingUser = await prisma.user.findUnique({
-      where: { email },
+      where: { email }
     });
 
     if (existingUser) {
@@ -39,9 +39,9 @@ export const registerUser = async (req, res) => {
         username,
         email,
         password: hashedPassword,
-        user_type: userType,
+        user_type: userType
       },
-      select: { id: true, username: true, email: true, user_type: true },
+      select: { id: true, username: true, email: true, user_type: true }
     });
 
     return res
