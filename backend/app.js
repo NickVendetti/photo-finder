@@ -15,6 +15,7 @@ import photoRoutes from "./routes/photos.js";
 // import reviewRoutes from "./routes/reviews.js";
 import bookingRoutes from "./routes/bookings.js";
 import authRoutes from "./routes/auth.js";
+import prisma from "./prisma/client.js";
 
 export const app = express();
 
@@ -37,16 +38,81 @@ app.use("/photos", photoRoutes);
 app.use("/bookings", bookingRoutes);
 app.use("/auth", authRoutes);
 
-// health check including db connection verification
+// Enhanced health check with debugging
 app.get("/health", async (req, res) => {
   try {
+    // Test raw SQL query
     await prisma.$queryRaw`SELECT 1`;
 
-    res.status(200).send("Healthy");
+    // Test Prisma client operation
+    await prisma.user.findFirst();
+
+    res.status(200).json({
+      status: "healthy",
+      database: "connected",
+      timestamp: new Date().toISOString()
+    });
   } catch (error) {
     console.error("Database health check failed:", error);
-    res.status(200).send("Healthy");
+    res.status(500).json({
+      status: "unhealthy",
+      database: "disconnected",
+      error: error.message,
+      timestamp: new Date().toISOString()
+    });
   }
+});
+
+// Debug endpoint for database connectivity troubleshooting
+app.get("/debug/db", async (req, res) => {
+  const results = {};
+
+  try {
+    // 1. Test raw SQL query
+    const rawResult = await prisma.$queryRaw`SELECT 1 as test_value, NOW() as db_time`;
+    results.rawQuery = { success: true, result: rawResult };
+  } catch (error) {
+    results.rawQuery = { success: false, error: error.message };
+  }
+
+  try {
+    // 2. Test Prisma findFirst
+    const findResult = await prisma.user.findFirst({
+      select: { id: true, email: true },
+      take: 1
+    });
+    results.prismaFind = { success: true, result: findResult || "No users found" };
+  } catch (error) {
+    results.prismaFind = { success: false, error: error.message };
+  }
+
+  try {
+    // 3. Test Prisma connection info
+    const connectionInfo = {
+      url: process.env.DATABASE_URL ? process.env.DATABASE_URL.replace(/:[^:@]*@/, ':***@') : 'not set',
+      nodeEnv: process.env.NODE_ENV,
+      renderUrl: process.env.RENDER_EXTERNAL_URL || 'not set',
+    };
+    results.connectionInfo = connectionInfo;
+  } catch (error) {
+    results.connectionInfo = { error: error.message };
+  }
+
+  try {
+    // 4. Test Prisma client status
+    const clientStatus = {
+      isConnected: prisma._engine?.connection?._connected || 'unknown',
+      engineType: prisma._engine?.constructor?.name || 'unknown',
+    };
+    results.clientStatus = clientStatus;
+  } catch (error) {
+    results.clientStatus = { error: error.message };
+  }
+
+  res.json({
+    timestamp: new Date().toISOString(),
+    results
+  });
 });
 
 export default app;
