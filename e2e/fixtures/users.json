@@ -1,0 +1,26 @@
+{
+  "testUser": {
+    "username": "testuser",
+    "email": "testuser@example.com",
+    "password": "testpass123",
+    "user_type": "USER"
+  },
+  "testPhotographer": {
+    "username": "testphotographer",
+    "email": "testphotographer@example.com",
+    "password": "testpass123",
+    "user_type": "PHOTOGRAPHER"
+  },
+  "secondTestUser": {
+    "username": "seconduser",
+    "email": "seconduser@example.com",
+    "password": "testpass456",
+    "user_type": "USER"
+  },
+  "secondTestPhotographer": {
+    "username": "secondphotographer",
+    "email": "secondphotographer@example.com",
+    "password": "testpass456",
+    "user_type": "PHOTOGRAPHER"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "sampleBookings": [
+    {
+      "bookingType": "portrait",
+      "date": "2024-12-01",
+      "time": "10:00"
+    },
+    {
+      "bookingType": "wedding",
+      "date": "2024-12-15",
+      "time": "14:30"
+    },
+    {
+      "bookingType": "event",
+      "date": "2024-12-20",
+      "time": "18:00"
+    },
+    {
+      "bookingType": "landscape",
+      "date": "2024-12-25",
+      "time": "06:00"
+    }
+  ]
+}
