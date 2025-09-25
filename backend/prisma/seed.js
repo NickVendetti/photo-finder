@@ -22,25 +22,25 @@ async function main() {
     }
   });
 
-  // Create a photographer profile
-  const photographer = await prisma.photographer.create({
+  // Create a test photo for the photographer user
+  const photo = await prisma.photo.create({
     data: {
       user_id: user1.id,
-      bio: "Professional photographer specializing in portraits.",
-      portfolio_url: "https://example.com/portfolio",
-      location: "New York, USA",
-      profile_picture: "https://example.com/profile.jpg"
+      image: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k=",
+      photo_type: "upload",
+      title: "Test Sunset Photo",
+      description: "A beautiful sunset landscape"
     }
   });
 
-  // Create a test photo
-  const photo = await prisma.photo.create({
+  // Create another photo for the regular user
+  const userPhoto = await prisma.photo.create({
     data: {
-      photographer_id: photographer.id,
-      image: "https://example.com/sunset.jpg",
-      is_public: true,
-      tags: ["sunset", "nature"],
-      source: "upload"
+      user_id: user2.id,
+      image: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k=",
+      photo_type: "upload",
+      title: "User's First Photo",
+      description: "A photo uploaded by a regular user"
     }
   });
 

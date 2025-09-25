@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor, act } from "@testing-library/react";
 import Gallery from "./Gallery";
 import { fetchAllPhotos } from "../../api/client";
 
@@ -35,7 +35,9 @@ describe("Gallery Component", () => {
   });
 
   it("fetches and displays photos after loading", async () => {
-    render(<Gallery onPhotoClick={mockPhotoClick} />);
+    await act(async () => {
+      render(<Gallery onPhotoClick={mockPhotoClick} />);
+    });
 
     await waitFor(() => {
       expect(fetchAllPhotos).toHaveBeenCalledTimes(1);
@@ -53,7 +55,9 @@ describe("Gallery Component", () => {
   });
 
   it("handles photo click correctly", async () => {
-    render(<Gallery onPhotoClick={mockPhotoClick} />);
+    await act(async () => {
+      render(<Gallery onPhotoClick={mockPhotoClick} />);
+    });
 
     await waitFor(() => {
       expect(screen.queryByRole("status")).not.toBeInTheDocument();
@@ -66,7 +70,9 @@ describe("Gallery Component", () => {
   });
 
   it("displays filter dropdown with correct options", async () => {
-    render(<Gallery onPhotoClick={mockPhotoClick} />);
+    await act(async () => {
+      render(<Gallery onPhotoClick={mockPhotoClick} />);
+    });
 
     const selectElement = screen.getByRole("combobox");
     expect(selectElement).toBeInTheDocument();
@@ -79,7 +85,9 @@ describe("Gallery Component", () => {
   });
 
   it("filters photos correctly when a filter is selected", async () => {
-    render(<Gallery onPhotoClick={mockPhotoClick} />);
+    await act(async () => {
+      render(<Gallery onPhotoClick={mockPhotoClick} />);
+    });
 
     await waitFor(() => {
       expect(screen.queryByRole("status")).not.toBeInTheDocument();
@@ -88,21 +96,28 @@ describe("Gallery Component", () => {
     expect(screen.getAllByRole("img")).toHaveLength(4);
 
     const selectElement = screen.getByRole("combobox");
-    fireEvent.change(selectElement, { target: { value: "wedding" } });
+
+    await act(async () => {
+      fireEvent.change(selectElement, { target: { value: "wedding" } });
+    });
 
     await waitFor(() => {
       expect(screen.getAllByRole("img")).toHaveLength(1);
       expect(screen.getByAltText("Photo 1")).toBeInTheDocument();
     });
 
-    fireEvent.change(selectElement, { target: { value: "portrait" } });
+    await act(async () => {
+      fireEvent.change(selectElement, { target: { value: "portrait" } });
+    });
 
     await waitFor(() => {
       expect(screen.getAllByRole("img")).toHaveLength(1);
       expect(screen.getByAltText("Photo 2")).toBeInTheDocument();
     });
 
-    fireEvent.change(selectElement, { target: { value: "all" } });
+    await act(async () => {
+      fireEvent.change(selectElement, { target: { value: "all" } });
+    });
 
     await waitFor(() => {
       expect(screen.getAllByRole("img")).toHaveLength(4);
@@ -114,7 +129,9 @@ describe("Gallery Component", () => {
 
     const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
 
-    render(<Gallery onPhotoClick={mockPhotoClick} />);
+    await act(async () => {
+      render(<Gallery onPhotoClick={mockPhotoClick} />);
+    });
 
     await waitFor(() => {
       expect(fetchAllPhotos).toHaveBeenCalledTimes(1);
@@ -141,7 +158,9 @@ describe("Gallery Component", () => {
 
     fetchAllPhotos.mockResolvedValue(photosWithMissingTitle);
 
-    render(<Gallery onPhotoClick={mockPhotoClick} />);
+    await act(async () => {
+      render(<Gallery onPhotoClick={mockPhotoClick} />);
+    });
 
     await waitFor(() => {
       expect(fetchAllPhotos).toHaveBeenCalled();

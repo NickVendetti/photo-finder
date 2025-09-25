@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, act } from "@testing-library/react";
 import Login from "./Login";
 import { useAuth } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
@@ -59,7 +59,10 @@ describe("Login Component", () => {
 
     fireEvent.change(emailInput, { target: { value: "user@example.com" } });
     fireEvent.change(passwordInput, { target: { value: "userpassword" } });
-    fireEvent.click(submitButton);
+
+    await act(async () => {
+      fireEvent.click(submitButton);
+    });
 
     expect(loginUser).toHaveBeenCalledWith({
       email: "user@example.com",
@@ -91,7 +94,10 @@ describe("Login Component", () => {
       target: { value: "photographer@example.com" },
     });
     fireEvent.change(passwordInput, { target: { value: "photopass" } });
-    fireEvent.click(submitButton);
+
+    await act(async () => {
+      fireEvent.click(submitButton);
+    });
 
     expect(loginUser).toHaveBeenCalledWith({
       email: "photographer@example.com",
@@ -118,7 +124,10 @@ describe("Login Component", () => {
 
     fireEvent.change(emailInput, { target: { value: "invalid@example.com" } });
     fireEvent.change(passwordInput, { target: { value: "wrongpassword" } });
-    fireEvent.click(submitButton);
+
+    await act(async () => {
+      fireEvent.click(submitButton);
+    });
 
     await vi.waitFor(() => {
       expect(

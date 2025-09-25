@@ -50,6 +50,7 @@ export default function Login() {
             <div
               className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
               role="alert"
+              data-testid="error-message"
             >
               <span className="block sm:inline">{error}</span>
             </div>
@@ -71,6 +72,7 @@ export default function Login() {
                   autoComplete="email"
                   required
                   className="input w-full"
+                  data-testid="email-input"
                   value={formData.email}
                   onChange={handleChange}
                 />
@@ -92,6 +94,7 @@ export default function Login() {
                   autoComplete="current-password"
                   required
                   className="input w-full"
+                  data-testid="password-input"
                   value={formData.password}
                   onChange={handleChange}
                 />
@@ -102,6 +105,7 @@ export default function Login() {
               <button
                 type="submit"
                 className="w-full btn btn-primary"
+                data-testid="login-button"
                 disabled={isLoading}
               >
                 {isLoading ? "Logging in..." : "Login"}
@@ -124,6 +128,7 @@ export default function Login() {
                 to="/register"
                 role="link"
                 aria-label="Sign up"
+                data-testid="register-link"
                 className="w-full inline-flex justify-center py-2 px-4 border border-neutral-300 rounded-md shadow-sm bg-white text-sm font-medium text-neutral-500 hover:bg-neutral-50"
               >
                 Sign up

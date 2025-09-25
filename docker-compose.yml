@@ -19,10 +19,13 @@ services:
         - NODE_ENV=${NODE_ENV}
     container_name: my-backend
     ports:
-      - "6000:5004"
+      - "5002:5002"
     environment:
       - NODE_ENV=${NODE_ENV}
       - DATABASE_URL=${DATABASE_URL}
+      - PORT=5002
+      - JWT_SECRET=your_jwt_secret_change_in_production
+      - JWT_EXPIRES_IN=7d
     restart: unless-stopped
     networks:
       - app-network

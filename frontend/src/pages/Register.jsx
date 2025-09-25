@@ -8,7 +8,7 @@ function Register() {
     username: "",
     email: "",
     password: "",
-    user_type: "user",
+    user_type: "USER",
   });
   const [error, setError] = useState(null);
   const [passwordError, setPasswordError] = useState("");
@@ -75,6 +75,7 @@ function Register() {
             <div
               className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
               role="alert"
+              data-testid="error-message"
             >
               <span className="block sm:inline">{error}</span>
             </div>
@@ -95,6 +96,7 @@ function Register() {
                   type="text"
                   required
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  data-testid="username-input"
                   value={formData.username}
                   onChange={handleChange}
                 />
@@ -116,6 +118,7 @@ function Register() {
                   autoComplete="email"
                   required
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  data-testid="email-input"
                   value={formData.email}
                   onChange={handleChange}
                 />
@@ -137,6 +140,7 @@ function Register() {
                   autoComplete="new-password"
                   required
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm pr-10"
+                  data-testid="password-input"
                   value={formData.password}
                   onChange={handleChange}
                 />
@@ -171,12 +175,13 @@ function Register() {
                   id="user_type"
                   name="user_type"
                   className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  data-testid="user-type-select"
                   value={formData.user_type}
                   onChange={handleChange}
                   required
                 >
-                  <option value="user">User</option>
-                  <option value="photographer">Photographer</option>
+                  <option value="USER">User</option>
+                  <option value="PHOTOGRAPHER">Photographer</option>
                 </select>
               </div>
             </div>
@@ -185,6 +190,7 @@ function Register() {
               <button
                 type="submit"
                 className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                data-testid="register-button"
                 disabled={isLoading || !!passwordError}
               >
                 {isLoading ? "Signing up..." : "Sign up"}
@@ -207,6 +213,7 @@ function Register() {
             <div className="mt-6">
               <Link
                 to="/login"
+                data-testid="login-link"
                 className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
               >
                 Log in

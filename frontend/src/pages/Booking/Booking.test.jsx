@@ -16,6 +16,9 @@ describe("Booking Component", () => {
   beforeEach(() => {
     vi.clearAllMocks();
 
+    // Mock window.alert
+    vi.stubGlobal('alert', vi.fn());
+
     useNavigate.mockReturnValue(mockNavigate);
     useParams.mockReturnValue({ photographer_id: "456" });
     useAuth.mockReturnValue({ user: mockUser });
@@ -72,27 +75,37 @@ describe("Booking Component", () => {
   it("submits the form with correct data and navigates on success", async () => {
     render(<Booking />);
 
+    // Use a future date to avoid validation errors
+    const futureDate = new Date();
+    futureDate.setDate(futureDate.getDate() + 7); // 7 days from now
+    const futureDateString = futureDate.toISOString().split('T')[0];
+
     fireEvent.change(screen.getByLabelText("Session Type"), {
       target: { value: "family" },
     });
     fireEvent.change(screen.getByLabelText("Select Date"), {
-      target: { value: "2025-04-20" },
+      target: { value: futureDateString },
+    });
+    fireEvent.change(screen.getByLabelText("Select Time"), {
+      target: { value: "10:00" },
     });
 
+    // Wait for validation to complete
     await vi.waitFor(() => {
-      fireEvent.change(screen.getByLabelText("Select Time"), {
-        target: { value: "10:00" },
-      });
+      const submitButton = screen.getByRole("button", { name: /confirm booking/i });
+      expect(submitButton).not.toBeDisabled();
     });
 
     fireEvent.click(screen.getByRole("button", { name: /confirm booking/i }));
 
-    expect(bookingApi.createBooking).toHaveBeenCalledWith({
-      bookingType: "family",
-      date: "2025-04-20",
-      time: "10:00",
-      photographer_id: 456,
-      user_id: 123,
+    await vi.waitFor(() => {
+      expect(bookingApi.createBooking).toHaveBeenCalledWith({
+        bookingType: "family",
+        date: futureDateString,
+        time: "10:00",
+        photographer_id: 456,
+        user_id: 123,
+      });
     });
 
     await vi.waitFor(() => {
