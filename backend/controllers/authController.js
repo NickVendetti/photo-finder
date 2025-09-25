@@ -11,9 +11,9 @@ export const registerUser = async (req, res) => {
     const { username, email, password, user_type } = req.body;
 
     const userType =
-      user_type === "photographer"
+      user_type === "photographer" || user_type === "PHOTOGRAPHER"
         ? "PHOTOGRAPHER"
-        : user_type === "user" ? "USER" : null;
+        : user_type === "user" || user_type === "USER" ? "USER" : null;
 
     if (!userType) {
       return res.status(400).json({ message: "Invalid user_type on user" });

@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import { PrismaClient } from '@prisma/client';
 
 // Load environment variables based on NODE_ENV
 if (process.env.NODE_ENV === "test") {
@@ -16,6 +17,7 @@ import photoRoutes from "./routes/photos.js";
 import bookingRoutes from "./routes/bookings.js";
 import authRoutes from "./routes/auth.js";
 
+const prisma = new PrismaClient();
 export const app = express();
 
 // Middleware
