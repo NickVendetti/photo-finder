@@ -1,4 +1,5 @@
 import { Navigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 const ProtectedRoute = ({
     element,
@@ -15,6 +16,13 @@ const ProtectedRoute = ({
     }
 
     return element;
+};
+
+ProtectedRoute.propTypes = {
+    element: PropTypes.element.isRequired,
+    allowedUserTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
+    authenticationStatus: PropTypes.bool.isRequired,
+    userType: PropTypes.string,
 };
 
 export default ProtectedRoute;

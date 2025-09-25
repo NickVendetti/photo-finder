@@ -1,11 +1,11 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import Login from "./Login";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../api/client";
 
-vi.mock("../../context/AuthContext");
+vi.mock("../../hooks/useAuth");
 vi.mock("react-router-dom");
 vi.mock("../../api/client");
 
