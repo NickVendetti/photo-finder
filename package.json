@@ -3,21 +3,12 @@
   "version": "1.0.0",
   "description": "Photo Finder application with e2e testing",
   "scripts": {
-    "e2e": "cd e2e && npm run e2e",
-    "e2e:headed": "cd e2e && npm run e2e:headed",
-    "e2e:debug": "cd e2e && npm run e2e:debug",
-    "e2e:ui": "cd e2e && npm run e2e:ui",
-    "e2e:report": "cd e2e && npm run e2e:report",
-    "e2e:install": "cd e2e && npm run e2e:install",
-    "e2e:install-deps": "cd e2e && npm run e2e:install-deps",
-    "e2e:setup": "cd e2e && npm run e2e:setup",
-    "e2e:chromium": "cd e2e && npm run e2e:chromium",
-    "e2e:firefox": "cd e2e && npm run e2e:firefox",
-    "e2e:webkit": "cd e2e && npm run e2e:webkit",
-    "e2e:mobile": "cd e2e && npm run e2e:mobile",
-    "e2e:safari": "cd e2e && npm run e2e:safari",
-    "e2e:codegen": "cd e2e && npm run e2e:codegen",
-    "demo": "cd e2e && npm run demo",
-    "demo:ui": "cd e2e && npm run demo:ui"
+    "e2e:ui": "docker-compose up -d db && cd e2e && npm run e2e:ui",
+    "frontend": "cd frontend && npm run dev",
+    "backend": "cd backend && npm start",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm start",
+    "db:start": "docker-compose up -d db",
+    "db:stop": "docker-compose down"
   }
 }
