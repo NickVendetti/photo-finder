@@ -6,9 +6,12 @@ This project includes comprehensive end-to-end testing using Playwright to ensur
 
 ### 1. Install Playwright Dependencies
 
-First, install Playwright browsers and system dependencies:
+First, install Playwright package and dependencies:
 
 ```bash
+# Install Playwright package (if not already installed)
+npm install --save-dev @playwright/test
+
 # Install Playwright browsers
 npm run e2e:install
 
