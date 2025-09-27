@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
-  testDir: './e2e/tests',
+  testDir: './tests',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
@@ -14,7 +14,7 @@ export default defineConfig({
   outputDir: 'e2e-results/test-artifacts',
 
   use: {
-    baseURL: 'http://localhost:3000',  // Docker frontend port
+    baseURL: 'http://localhost:5173',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
@@ -30,16 +30,40 @@ export default defineConfig({
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
     },
+    {
+      name: 'webkit',
+      use: { ...devices['Desktop Safari'] },
+    },
+    {
+      name: 'Mobile Chrome',
+      use: { ...devices['Pixel 5'] },
+    },
+    {
+      name: 'Mobile Safari',
+      use: { ...devices['iPhone 12'] },
+    },
   ],
 
-  // Don't start servers - assume Docker containers are already running
-  // webServer: [],
+  webServer: [
+    {
+      command: 'cd ../frontend && npm run dev',
+      port: 5173,
+      reuseExistingServer: !process.env.CI,
+      timeout: 30000,
+    },
+    {
+      command: 'cd ../backend && npm start',
+      port: 5002,
+      reuseExistingServer: !process.env.CI,
+      timeout: 30000,
+    }
+  ],
 
   timeout: 60000,
   expect: {
     timeout: 10000,
   },
 
-  globalSetup: './e2e/utils/global-setup.docker.js',
-  globalTeardown: './e2e/utils/global-teardown.js',
+  globalSetup: './utils/global-setup.js',
+  globalTeardown: './utils/global-teardown.js',
 });

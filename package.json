@@ -1,27 +1,23 @@
 {
-  "name": "photo-finder-e2e",
+  "name": "photo-finder",
   "version": "1.0.0",
-  "description": "End-to-end testing for Photo Finder application",
+  "description": "Photo Finder application with e2e testing",
   "scripts": {
-    "e2e": "playwright test",
-    "e2e:headed": "playwright test --headed",
-    "e2e:debug": "playwright test --debug",
-    "e2e:ui": "playwright test --ui",
-    "e2e:report": "playwright show-report e2e-results/html-report",
-    "e2e:install": "playwright install",
-    "e2e:install-deps": "playwright install-deps",
-    "e2e:setup": "npm run e2e:install && npm run e2e:install-deps",
-    "e2e:chromium": "playwright test --project=chromium",
-    "e2e:firefox": "playwright test --project=firefox",
-    "e2e:webkit": "playwright test --project=webkit",
-    "e2e:mobile": "playwright test --project='Mobile Chrome'",
-    "e2e:safari": "playwright test --project='Mobile Safari'",
-    "e2e:codegen": "playwright codegen http://localhost:5173",
-    "demo": "playwright test --headed --project=chromium --workers=1",
-    "demo:ui": "playwright test --ui"
-  },
-  "devDependencies": {
-    "@playwright/test": "^1.55.1",
-    "playwright": "^1.55.1"
+    "e2e": "cd e2e && npm run e2e",
+    "e2e:headed": "cd e2e && npm run e2e:headed",
+    "e2e:debug": "cd e2e && npm run e2e:debug",
+    "e2e:ui": "cd e2e && npm run e2e:ui",
+    "e2e:report": "cd e2e && npm run e2e:report",
+    "e2e:install": "cd e2e && npm run e2e:install",
+    "e2e:install-deps": "cd e2e && npm run e2e:install-deps",
+    "e2e:setup": "cd e2e && npm run e2e:setup",
+    "e2e:chromium": "cd e2e && npm run e2e:chromium",
+    "e2e:firefox": "cd e2e && npm run e2e:firefox",
+    "e2e:webkit": "cd e2e && npm run e2e:webkit",
+    "e2e:mobile": "cd e2e && npm run e2e:mobile",
+    "e2e:safari": "cd e2e && npm run e2e:safari",
+    "e2e:codegen": "cd e2e && npm run e2e:codegen",
+    "demo": "cd e2e && npm run demo",
+    "demo:ui": "cd e2e && npm run demo:ui"
   }
 }

@@ -6,27 +6,24 @@ This project includes comprehensive end-to-end testing using Playwright to ensur
 
 ### 1. Install Playwright Dependencies
 
-First, install Playwright package and dependencies:
+First, install Playwright package and dependencies in the e2e directory:
 
 ```bash
-# Install Playwright package (if not already installed)
-npm install --save-dev @playwright/test
-
-# Install Playwright browsers
-npm run e2e:install
-
-# Install system dependencies (required for Linux/CI environments)
-npm run e2e:install-deps
-
-# Or run both at once
+# Install Playwright package and dependencies (run from project root)
 npm run e2e:setup
+
+# Or manually install from e2e directory:
+cd e2e
+npm install
+npm run e2e:install
+npm run e2e:install-deps
 ```
 
 ### 2. Running Tests
 
 #### Basic Test Commands
 ```bash
-# Run all tests (headless)
+# Run all tests (headless) - commands run from project root
 npm run e2e
 
 # Run tests with browser UI visible (great for demos!)
@@ -75,12 +72,13 @@ Our e2e tests are located in the `e2e/tests/` directory:
 
 ### 4. Configuration
 
-The Playwright configuration (`playwright.config.js`) includes:
+The Playwright configuration is located in `e2e/playwright.config.js` and includes:
 
 - **Multi-browser support**: Chrome, Firefox, Safari, Mobile devices
 - **Automatic server startup**: Frontend (port 5173) and Backend (port 5002)
 - **Test artifacts**: Screenshots, videos, and traces on failure
-- **HTML reports**: Generated in `e2e-results/html-report/`
+- **HTML reports**: Generated in `e2e/e2e-results/html-report/`
+- **Organized structure**: All e2e-related files are contained in the `e2e/` directory
 
 ### 5. Demo Mode for Presentations
 

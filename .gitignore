@@ -2,3 +2,7 @@ backend/.env.test
 .DS_Store
 .env
 node_modules
+
+# E2E test results
+e2e/e2e-results/
+e2e/node_modules/
