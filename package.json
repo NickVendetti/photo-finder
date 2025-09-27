@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Photo Finder application with e2e testing",
   "scripts": {
+    "setup": "cd frontend && npm install && cd ../backend && npm install && cd ../e2e && npm install && npm run e2e:setup",
     "e2e:ui": "docker-compose up -d db && cd e2e && npm install && npm run e2e:ui",
     "e2e:setup": "cd e2e && npm install && npm run e2e:setup",
     "frontend": "cd frontend && npm run dev",
