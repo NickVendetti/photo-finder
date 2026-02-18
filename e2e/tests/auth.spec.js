@@ -31,8 +31,8 @@ test.describe('Authentication', () => {
         'USER'
       );
 
-      // Should redirect to login or show success message
-      await expect(page).toHaveURL(/\/(login|home)/);
+      // Should redirect to discover after auto-login
+      await expect(page).toHaveURL(/\/discover/);
     });
 
     test('should register a new photographer successfully', async ({ page }) => {
@@ -48,8 +48,8 @@ test.describe('Authentication', () => {
         'PHOTOGRAPHER'
       );
 
-      // Should redirect to login or show success message
-      await expect(page).toHaveURL(/\/(login|home)/);
+      // Should redirect to photographer dashboard after auto-login
+      await expect(page).toHaveURL(/\/profile-dashboard/);
     });
 
     test('should show error for duplicate email', async ({ page }) => {

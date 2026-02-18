@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { registerUser } from "../api/client";
+import { useAuth } from "../context/AuthContext";
 import { Eye, EyeOff } from "lucide-react";
 
 function Register() {
+  const { login } = useAuth();
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -47,9 +49,13 @@ function Register() {
     setError(null);
 
     try {
-      await registerUser(formData);
-      alert("Registration successful! You can now log in.");
-      navigate("/");
+      const data = await registerUser(formData);
+      login(data.user, data.token);
+      if (data.user.user_type === "PHOTOGRAPHER") {
+        navigate("/profile-dashboard");
+      } else {
+        navigate("/discover");
+      }
     } catch (error) {
       setError(error.message);
     } finally {

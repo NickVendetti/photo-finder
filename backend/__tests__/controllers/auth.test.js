@@ -82,6 +82,7 @@ describe("Auth Controller", () => {
         user_type: UserType.USER,
       };
 
+      prisma.user.findUnique.mockResolvedValue(null);
       prisma.user.create.mockResolvedValue(mockUser);
 
       // Execute
@@ -98,11 +99,19 @@ describe("Auth Controller", () => {
           password: "hashedpassword123",
           user_type: UserType.USER,
         },
+        select: { id: true, username: true, email: true, user_type: true },
       });
+
+      expect(jwt.sign).toHaveBeenCalledWith(
+        { id: 1, user_type: UserType.USER },
+        expect.any(String),
+        { expiresIn: "1h" }
+      );
 
       expect(res.status).toHaveBeenCalledWith(201);
       expect(res.json).toHaveBeenCalledWith({
         message: "User registered successfully",
+        token: "mocked-jwt-token",
         user: mockUser,
       });
     });
@@ -119,6 +128,7 @@ describe("Auth Controller", () => {
         user_type: UserType.PHOTOGRAPHER,
       };
 
+      prisma.user.findUnique.mockResolvedValue(null);
       prisma.user.create.mockResolvedValue(mockUser);
 
       // Execute
@@ -129,11 +139,19 @@ describe("Auth Controller", () => {
         data: expect.objectContaining({
           user_type: UserType.PHOTOGRAPHER,
         }),
+        select: { id: true, username: true, email: true, user_type: true },
       });
+
+      expect(jwt.sign).toHaveBeenCalledWith(
+        { id: 1, user_type: UserType.PHOTOGRAPHER },
+        expect.any(String),
+        { expiresIn: "1h" }
+      );
 
       expect(res.status).toHaveBeenCalledWith(201);
       expect(res.json).toHaveBeenCalledWith({
         message: "User registered successfully",
+        token: "mocked-jwt-token",
         user: mockUser,
       });
     });
