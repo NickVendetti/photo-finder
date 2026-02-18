@@ -1,3 +1,16 @@
+Persona & Learning Style:
+I am a beginner in software development. I have a strong background in automotive mechanics, so I learn best when digital concepts are mapped to physical or intuitive analogies.
+
+Instructions for Explanations:
+
+Break it down: When I ask about a technical topic, explain the "big picture" logic before showing code.
+
+Intuitive Analogies: Use real-world metaphors (e.g., comparing a GitHub Workflow to a factory assembly line) to help me build a mental model.
+
+Jargon Check: If you use a technical term (like "idempotency" or "serialized"), briefly define it in plain English.
+
+Scannable Steps: Use bullet points and bold text for key takeaways so I don't get lost in walls of text.
+
 # Photo Finder - E2E Testing Setup
 
 This project includes comprehensive end-to-end testing using Playwright to ensure all functionality works correctly across different browsers and devices.

@@ -5,7 +5,7 @@ import bcrypt from "bcryptjs"; // Add bcrypt for password hashing
 export const getAllUsers = async (req, res) => {
   try {
     console.log("[DEBUG] Fetching all users...");
-    const users = await prisma.User.findMany(); //  Changed to prisma.User
+    const users = await prisma.user.findMany(); //  Changed to prisma.user
     console.log("[DEBUG] Users fetched:", users);
     res.json(users);
   } catch (error) {
@@ -18,7 +18,7 @@ export const getAllUsers = async (req, res) => {
 export const getUserById = async (req, res) => {
   try {
     console.log(`[DEBUG] Fetching user with ID: ${req.params.id}`);
-    const user = await prisma.User.findUnique({
+    const user = await prisma.user.findUnique({
       where: { id: parseInt(req.params.id) }
     });
     if (!user) {
@@ -48,7 +48,7 @@ export const createUser = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const newUser = await prisma.User.create({
+    const newUser = await prisma.user.create({
       data: { username, email, password: hashedPassword, user_type }
     });
 
@@ -66,7 +66,7 @@ export const updateUser = async (req, res) => {
     const { id } = req.params;
     let { username, email, password, user_type } = req.body;
 
-    const existingUser = await prisma.User.findUnique({
+    const existingUser = await prisma.user.findUnique({
       where: { id: parseInt(id) }
     });
 
@@ -80,7 +80,7 @@ export const updateUser = async (req, res) => {
       password = await bcrypt.hash(password, salt);
     }
 
-    const updatedUser = await prisma.User.update({
+    const updatedUser = await prisma.user.update({
       where: { id: parseInt(id) },
       data: { username, email, password, user_type }
     });
@@ -97,7 +97,7 @@ export const deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const existingUser = await prisma.User.findUnique({
+    const existingUser = await prisma.user.findUnique({
       where: { id: parseInt(id) }
     });
 
@@ -105,7 +105,7 @@ export const deleteUser = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    await prisma.User.delete({
+    await prisma.user.delete({
       where: { id: parseInt(id) }
     });
 
@@ -121,7 +121,7 @@ export const getUserProfile = async (req, res) => {
   try {
     if (!req.user) return res.status(401).json({ error: "Unauthorized" });
 
-    const user = await prisma.User.findUnique({
+    const user = await prisma.user.findUnique({
       where: { id: req.user.id },
       select: {
         id: true,
@@ -147,7 +147,7 @@ export const updateUserProfile = async (req, res) => {
 
     const { username, email } = req.body;
 
-    const updatedUser = await prisma.User.update({
+    const updatedUser = await prisma.user.update({
       where: { id: req.user.id },
       data: { username, email }
     });
