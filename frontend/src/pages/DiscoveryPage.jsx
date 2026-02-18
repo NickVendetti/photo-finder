@@ -1,12 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import Gallery from "../components/Gallery/Gallery";
+import { useAuth } from "../context/AuthContext";
 
 function DiscoveryPage() {
   const navigate = useNavigate();
+  const { userType } = useAuth();
 
   const handlePhotoClick = (photo) => {
-    if (photo.user?.id) {
-      navigate(`/booking/${photo.user.id}`);
+    if (userType === "USER" && photo.photographer?.id) {
+      navigate(`/booking/${photo.photographer.id}`);
     }
   };
 
@@ -17,7 +19,9 @@ function DiscoveryPage() {
           Discover Amazing Photography
         </h1>
         <p className="text-xl text-gray-600 mb-12 text-center">
-          Explore our collection and book your next photoshoot
+          {userType === "PHOTOGRAPHER"
+            ? "Browse the gallery to see what other photographers are capturing"
+            : "Explore our collection and book your next photoshoot"}
         </p>
         <Gallery onPhotoClick={handlePhotoClick} />
       </div>

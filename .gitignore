@@ -1,8 +1,18 @@
 backend/.env.test
 .DS_Store
 .env
+.env.*
 node_modules
 
-# E2E test results
+# E2E test results and environment files
 e2e/e2e-results/
 e2e/node_modules/
+e2e/.env.e2e
+e2e/.env.e2e.docker
+
+# Test coverage output
+coverage/
+.nyc_output/
+
+# Claude Code local settings (machine-specific)
+.claude/settings.local.json

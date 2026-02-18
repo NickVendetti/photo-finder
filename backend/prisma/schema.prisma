@@ -39,7 +39,7 @@ model Photo {
   updated_at  DateTime @updatedAt
 
   // Make user_id required since a photo should always belong to a user
-  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  photographer User @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   // Add indexes for better query performance
   @@index([user_id])

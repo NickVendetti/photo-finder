@@ -8,7 +8,7 @@ export const getAllPhotos = async (req, res) => {
   try {
     const photos = await prisma.photo.findMany({
       include: {
-        user: {
+        photographer: {
           select: {
             id: true,
             username: true,
@@ -75,7 +75,7 @@ export const addPhoto = async (req, res) => {
         photo_type,
       },
       include: {
-        user: {
+        photographer: {
           select: {
             id: true,
             username: true,
