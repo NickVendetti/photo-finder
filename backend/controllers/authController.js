@@ -19,8 +19,6 @@ export const registerUser = async (req, res) => {
       return res.status(400).json({ message: "Invalid user_type on user" });
     }
 
-    await prisma.$queryRaw`SELECT * FROM "User"`;
-
     const existingUser = await prisma.user.findUnique({
       where: { email }
     });
