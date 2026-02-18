@@ -6,6 +6,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
+    "dev": "nodemon server.js",
     "prisma:migrate": "npx prisma migrate dev --name ${npm_config_name:-init}",
     "prisma:seed": "npx prisma db seed",
     "prisma:reset": "npx prisma migrate reset --force",
