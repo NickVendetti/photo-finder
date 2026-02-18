@@ -45,7 +45,7 @@ function App() {
           element={
             <ProtectedRoute
               element={<DiscoveryPage />}
-              allowedUserTypes={["USER"]}
+              allowedUserTypes={["USER", "PHOTOGRAPHER"]}
               authenticationStatus={isAuthenticated}
               userType={userType}
             />
