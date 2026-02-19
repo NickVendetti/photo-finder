@@ -11,6 +11,13 @@
     "dev:frontend": "cd frontend && npm run dev",
     "dev:backend": "cd backend && npm start",
     "db:start": "docker-compose up -d db",
-    "db:stop": "docker-compose down"
+    "db:stop": "docker-compose down",
+    "dev": "npm run db:start && concurrently -n \"BACKEND,FRONTEND\" -c \"green,cyan\" \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "db:seed": "cd backend && npm run prisma:seed",
+    "db:migrate": "cd backend && npx prisma migrate dev",
+    "db:reset": "cd backend && npm run prisma:reset"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
   }
 }

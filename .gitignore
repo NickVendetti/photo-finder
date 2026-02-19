@@ -2,6 +2,8 @@ backend/.env.test
 .DS_Store
 .env
 .env.*
+!.env.example
+!**/.env.example
 node_modules
 
 # E2E test results and environment files
