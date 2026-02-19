@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { deletePhoto, uploadPhoto } from "../api/client";
 import photoApi from "../api/photoApi";
@@ -91,7 +92,16 @@ function ProfileDashboard() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl mx-32 font-bold mb-8 text-gray-800">Dashboard</h1>
+      <h1 className="text-3xl mx-32 font-bold mb-4 text-gray-800">Dashboard</h1>
+
+      <div className="mx-32 mb-8">
+        <Link
+          to="/discover"
+          className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+        >
+          Browse Discovery Gallery
+        </Link>
+      </div>
 
       <div className="bg-white shadow-md rounded-lg p-6 mx-32 mb-8">
         <h2 className="text-xl font-semibold mb-4 text-gray-700">
