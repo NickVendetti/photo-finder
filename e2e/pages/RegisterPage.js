@@ -6,8 +6,9 @@ export class RegisterPage extends BasePage {
     this.usernameInput = '[data-testid="username-input"]';
     this.emailInput = '[data-testid="email-input"]';
     this.passwordInput = '[data-testid="password-input"]';
-    this.userTypeSelect = '[data-testid="user-type-select"]';
-    this.registerButton = '[data-testid="register-button"]';
+    this.continueButton = '[data-testid="continue-button"]';
+    this.roleUserCard = '[data-testid="role-user-card"]';
+    this.rolePhotographerCard = '[data-testid="role-photographer-card"]';
     this.loginLink = '[data-testid="login-link"]';
     this.errorMessage = '[data-testid="error-message"]';
     this.successMessage = '[data-testid="success-message"]';
@@ -23,8 +24,12 @@ export class RegisterPage extends BasePage {
     await this.fill(this.usernameInput, username);
     await this.fill(this.emailInput, email);
     await this.fill(this.passwordInput, password);
-    await this.page.selectOption(this.userTypeSelect, userType);
-    await this.click(this.registerButton);
+    await this.click(this.continueButton);
+    if (userType === 'PHOTOGRAPHER') {
+      await this.click(this.rolePhotographerCard);
+    } else {
+      await this.click(this.roleUserCard);
+    }
   }
 
   async getErrorMessage() {

@@ -72,7 +72,7 @@ test.describe('Authentication', () => {
       await registerPage.goto();
 
       // Try to register without filling all fields
-      await page.click('[data-testid="register-button"]');
+      await page.click('[data-testid="continue-button"]');
 
       // Should stay on register page and show validation errors
       expect(await registerPage.isRegisterFormVisible()).toBeTruthy();
