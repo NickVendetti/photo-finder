@@ -1,6 +1,5 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import DiscoveryPage from "./pages/DiscoveryPage";
-import Home from "./pages/Home/Home";
 import Register from "./pages/Register";
 import Login from "./pages/Login/Login";
 import BookingManager from "./pages/BookingManager";
@@ -26,7 +25,7 @@ function App() {
     <div>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<DiscoveryPage />} />
         <Route path="/login" element={<Login />} />
         <Route
           path="/booking/:photographer_id"
@@ -40,17 +39,7 @@ function App() {
           }
         />
 
-        <Route
-          path="/discover"
-          element={
-            <ProtectedRoute
-              element={<DiscoveryPage />}
-              allowedUserTypes={["USER", "PHOTOGRAPHER"]}
-              authenticationStatus={isAuthenticated}
-              userType={userType}
-            />
-          }
-        />
+        <Route path="/discover" element={<Navigate to="/" replace />} />
 
         <Route path="/register" element={<Register />} />
         <Route

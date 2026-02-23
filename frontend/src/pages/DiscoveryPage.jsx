@@ -4,9 +4,13 @@ import { useAuth } from "../context/AuthContext";
 
 function DiscoveryPage() {
   const navigate = useNavigate();
-  const { userType } = useAuth();
+  const { userType, isAuthenticated } = useAuth();
 
   const handlePhotoClick = (photo) => {
+    if (!isAuthenticated) {
+      navigate("/login");
+      return;
+    }
     if (userType === "USER" && photo.photographer?.id) {
       navigate(`/booking/${photo.photographer.id}`);
     }
@@ -19,7 +23,9 @@ function DiscoveryPage() {
           Discover Amazing Photography
         </h1>
         <p className="text-xl text-gray-600 mb-12 text-center">
-          {userType === "PHOTOGRAPHER"
+          {!isAuthenticated
+            ? "Browse our photographers — sign in to book a session"
+            : userType === "PHOTOGRAPHER"
             ? "Browse the gallery to see what other photographers are capturing"
             : "Explore our collection and book your next photoshoot"}
         </p>

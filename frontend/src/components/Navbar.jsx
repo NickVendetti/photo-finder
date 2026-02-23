@@ -49,12 +49,20 @@ const Navbar = () => {
                   Logout
                 </button>
               ) : (
-                <Link
-                  to="/login"
-                  className="text-neutral-600 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Login
-                </Link>
+                <>
+                  <Link
+                    to="/login"
+                    className="text-neutral-600 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    to="/register"
+                    className="bg-primary-600 text-white hover:bg-primary-700 px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                    Sign Up
+                  </Link>
+                </>
               )}
             </div>
           </div>
