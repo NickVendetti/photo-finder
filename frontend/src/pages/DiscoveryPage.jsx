@@ -7,12 +7,8 @@ function DiscoveryPage() {
   const { userType, isAuthenticated } = useAuth();
 
   const handlePhotoClick = (photo) => {
-    if (!isAuthenticated) {
-      navigate("/login");
-      return;
-    }
-    if (userType === "USER" && photo.photographer?.id) {
-      navigate(`/booking/${photo.photographer.id}`);
+    if (photo.photographer?.id) {
+      navigate(`/photographer/${photo.photographer.id}`);
     }
   };
 
