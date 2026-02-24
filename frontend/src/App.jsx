@@ -8,6 +8,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { useAuth } from "./context/AuthContext";
 import Booking from "./pages/Booking/Booking";
 import Navbar from "./components/Navbar";
+import PhotographerProfile from "./pages/PhotographerProfile/PhotographerProfile";
 
 function App() {
   const { isAuthenticated, userType, loading } = useAuth();
@@ -40,7 +41,7 @@ function App() {
         />
 
         <Route path="/discover" element={<Navigate to="/" replace />} />
-
+        <Route path="/photographer/:id" element={<PhotographerProfile />} />
         <Route path="/register" element={<Register />} />
         <Route
           path="/profile-dashboard"
