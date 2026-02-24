@@ -83,15 +83,16 @@ const Gallery = ({ onPhotoClick }) => {
                 className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
                 loading="lazy"
               />
-              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 transition-all duration-300 flex items-end justify-start">
-                <div className="p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <h3 className="text-lg font-semibold truncate">
-                    {photo.title || "Untitled"}
-                  </h3>
-                  <p className="text-sm flex items-center mt-1">
-                    <Camera size={14} className="mr-1" />
+              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-300 flex items-end">
+                <div className="w-full p-4 text-white translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                  <p className="text-xs uppercase tracking-wide text-indigo-300 mb-1 flex items-center">
+                    <Camera size={12} className="mr-1" />
                     {photo.photo_type || "Uncategorized"}
                   </p>
+                  <h3 className="text-base font-semibold truncate">
+                    {photo.photographer?.username || "Photographer"}
+                  </h3>
+                  <p className="text-sm text-indigo-200 mt-1">View Profile →</p>
                 </div>
               </div>
             </div>
