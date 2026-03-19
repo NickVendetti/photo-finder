@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "e13oOGcSxFoXqk1dARboAw4sTSktlcuKUZEGfdh5QmM=",
+  "Source": "PhotoFinderAPI",
+  "BasePath": "_content/PhotoFinderAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
