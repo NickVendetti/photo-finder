@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="../buildMultiTargeting/PhotoFinderAPI.props" />
-</Project>
