@@ -4,3 +4,9 @@ GET {{PhotoFinderAPI_HostAddress}}/api/photographers
 Accept: application/json
 
 ###
+
+GET {{PhotoFinderAPI_HostAddress}}/api/photographers/1
+
+###
+
+GET {{PhotoFinderAPI_HostAddress}}/api/photographers/999
