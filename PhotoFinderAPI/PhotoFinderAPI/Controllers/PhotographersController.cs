@@ -22,34 +22,39 @@ namespace PhotoFinderAPI.Controllers;
 // without this we'd have to write those helper methods ourselves
 public class PhotographersController : ControllerBase
 {
-    // tells ASP.NET "when a GET request comes in, run this method"
-    // same as: app.get('/api/photographers', ...) in Express
+    // the list lives at the CLASS level so ALL methods can see it
+    // built with all 3 photographers already inside it
+    private static List<Photographer> _photographers = new List<Photographer>
+    {
+        new Photographer { Bio = "I am photographer1", Id = 1, Location = "Atlanta", Name = "Nick", Rating = 5, Style = "Portrait" },
+        new Photographer { Bio = "I am photographer 2", Id = 2, Location = "Columbus", Name = "Summer", Rating = 3, Style = "Wedding" },
+        new Photographer { Bio = "I am photographer 3", Id = 3, Location = "Lagrange", Name = "Miles", Rating = 4, Style = "Sports" }
+    };
+
+    // handles GET /api/photographers
+    // returns ALL photographers
     [HttpGet]
-    
-    // ActionResult<List<Photographer>> means:
-    // "this method returns either an HTTP response (like 200 OK)
-    // AND the data inside it will be a List of Photographer objects"
     public ActionResult<List<Photographer>> GetAll()
     {
-        // create an empty list to hold our photographers
-        // this is the "shelf" we'll put our photographers on
-        var items = new List<Photographer>();
-        
-        // create 3 hardcoded photographer objects using the Photographer blueprint
-        // each property matches what's defined in Photographer.cs   
-        var photographer1 = new Photographer { Bio = "I am photographer1", Id = 1, Location = "Atlanta", Name = "Nick", Rating = 5, Style = "Portrait" };
-        var photographer2 = new Photographer { Bio = "I am photographer 2", Id = 2, Location = "Columbus", Name = "Summer", Rating = 3, Style = "Wedding" };
-        var photographer3 = new Photographer { Bio = "I am photographer 3", Id = 3, Location = "Lagrange", Name = "Miles", Rating = 4, Style = "Sports" };
+        return Ok(_photographers);
+    }
 
-        // add each photographer to the list
-        // same as: items.push(photographer1) in JavaScript
-        items.Add(photographer1);
-        items.Add(photographer2);
-        items.Add(photographer3);
-            
-        // wrap the list in a 200 OK HTTP response and send it back as JSON
-        // same as: res.status(200).json(items) in Express
-        return Ok(items);
+    // handles GET /api/photographers/1  or  /api/photographers/2  etc
+    // the {id} in the route gets passed in as the id parameter
+    [HttpGet("{id}")]
+    public ActionResult<Photographer> GetById(int id)
+    {
+        // search the list for the first photographer whose Id matches
+        // returns null if nothing is found
+        var item = _photographers.FirstOrDefault(x => x.Id == id);
+
+        // if nothing was found return a 404 Not Found response
+        if (item == null)
+        {
+            return NotFound();
+        }
+
+        // if found return a 200 OK response with the photographer
+        return Ok(item);
     }
 }
-
