@@ -1,0 +1,9 @@
+GET http://localhost:5015/api/photographers
+Accept: application/json
+User-Agent: IntelliJ HTTP Client/JetBrains Rider 2025.3.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+
+<> 2026-03-23T001319.200.json
+
+###
+
