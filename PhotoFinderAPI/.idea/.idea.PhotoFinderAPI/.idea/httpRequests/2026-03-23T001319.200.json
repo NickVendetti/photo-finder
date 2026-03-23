@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "Nick",
+    "style": "Portrait",
+    "location": "Atlanta",
+    "bio": "I am photographer1",
+    "rating": 5
+  },
+  {
+    "id": 2,
+    "name": "Summer",
+    "style": "Wedding",
+    "location": "Columbus",
+    "bio": "I am photographer 2",
+    "rating": 3
+  },
+  {
+    "id": 3,
+    "name": "Miles",
+    "style": "Sports",
+    "location": "Lagrange",
+    "bio": "I am photographer 3",
+    "rating": 4
+  }
+]
