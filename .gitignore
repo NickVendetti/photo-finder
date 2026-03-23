@@ -21,4 +21,4 @@ coverage/
 
 # .NET build output
   bin/
-  obj/
+  obj/PhotoFinderAPI/.idea/
