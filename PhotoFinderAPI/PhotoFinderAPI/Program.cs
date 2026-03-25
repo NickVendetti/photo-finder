@@ -4,7 +4,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
-builder.Services.AddScoped<IPhotographerService, MockPhotographerService>();
+builder.Services.AddSingleton<IPhotographerService, MockPhotographerService>();
 // builder.Services.AddScoped<IPhotographerService, RealPhotographerService>();
 
 var app = builder.Build();

@@ -10,3 +10,15 @@ GET {{PhotoFinderAPI_HostAddress}}/api/photographers/1
 ###
 
 GET {{PhotoFinderAPI_HostAddress}}/api/photographers/999
+
+### Create a new photographer
+POST http://localhost:5015/api/photographers
+Content-Type: application/json
+
+{
+  "name": "Alex Rivera",
+  "style": "Street",
+  "location": "Austin, TX",
+  "bio": "Captures urban life in motion",
+  "rating": 4.7
+}
