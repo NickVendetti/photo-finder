@@ -20,4 +20,12 @@ public class MockPhotographerService : IPhotographerService
     {
         return _photographers.FirstOrDefault(x => x.Id == id);
     }
+
+    public Photographer Create(Photographer photographer)
+    {
+        var newId = _photographers.Max(x => x.Id) + 1; 
+        photographer.Id = newId;
+        _photographers.Add(photographer);
+        return photographer;
+    }
 }

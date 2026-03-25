@@ -12,7 +12,9 @@
       <change beforePath="$PROJECT_DIR$/.idea/.idea.PhotoFinderAPI/.idea/httpRequests/http-requests-log.http" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.PhotoFinderAPI/.idea/httpRequests/http-requests-log.http" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.PhotoFinderAPI/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.PhotoFinderAPI/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PhotoFinderAPI/Controllers/PhotographersController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhotoFinderAPI/Controllers/PhotographersController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhotoFinderAPI/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhotoFinderAPI/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhotoFinderAPI/PhotoFinderAPI.http" beforeDir="false" afterPath="$PROJECT_DIR$/PhotoFinderAPI/PhotoFinderAPI.http" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhotoFinderAPI/Services/IPhotographerService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhotoFinderAPI/Services/IPhotographerService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhotoFinderAPI/Services/MockPhotographerService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhotoFinderAPI/Services/MockPhotographerService.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,16 +56,17 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    ".NET Launch Settings Profile.PhotoFinderAPI: http.executor": "Debug",
+    ".NET Launch Settings Profile.PhotoFinderAPI: http.executor": "Run",
     "HTTP Request.PhotoFinderAPI | #1.executor": "Run",
     "HTTP Request.PhotoFinderAPI | #2.executor": "Run",
+    "HTTP Request.PhotoFinderAPI | Create a new photographer.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "XThreadsFramesViewSplitterKey": "0.7182045",
-    "git-widget-placeholder": "feature/photographer-service",
+    "git-widget-placeholder": "feature/create-photographer",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -78,7 +81,7 @@
         <entry key="HttpClient.HttpRequestRunConfigurationType">
           <value>
             <map>
-              <entry key="PhotoFinderAPI | #2" value="STOPPED" />
+              <entry key="PhotoFinderAPI | Create a new photographer" value="STOPPED" />
             </map>
           </value>
         </entry>
@@ -86,6 +89,9 @@
     </option>
   </component>
   <component name="RunManager" selected=".NET Launch Settings Profile.PhotoFinderAPI: http">
+    <configuration name="PhotoFinderAPI | Create a new photographer" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/PhotoFinderAPI/PhotoFinderAPI.http" executionIdentifier="Create a new photographer" index="4" runType="Run single request">
+      <method v="2" />
+    </configuration>
     <configuration name="PhotoFinderAPI | #1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/PhotoFinderAPI/PhotoFinderAPI.http" executionIdentifier="#1" runType="Run single request">
       <method v="2" />
     </configuration>
@@ -129,9 +135,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="HTTP Request.PhotoFinderAPI | #1" />
+        <item itemvalue="HTTP Request.PhotoFinderAPI | Create a new photographer" />
         <item itemvalue="HTTP Request.PhotoFinderAPI | #2" />
         <item itemvalue="HTTP Request.PhotoFinderAPI | #3" />
-        <item itemvalue="HTTP Request.PhotoFinderAPI | #1" />
       </list>
     </recent_temporary>
   </component>

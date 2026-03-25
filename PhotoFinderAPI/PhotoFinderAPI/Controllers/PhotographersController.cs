@@ -31,4 +31,15 @@ public class PhotographersController : ControllerBase
         }
         return Ok(item);
     }
+
+    [HttpPost]
+    public ActionResult<Photographer> Create([FromBody] Photographer photographer)
+    {
+        var created = _service.Create(photographer);
+        return CreatedAtAction(
+            nameof(GetById),
+            new { id = created.Id },
+            created
+            );
+    }
 }

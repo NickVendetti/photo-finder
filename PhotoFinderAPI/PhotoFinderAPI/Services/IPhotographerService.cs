@@ -6,4 +6,5 @@ public interface IPhotographerService
 {
     List<Photographer> GetAll();
     Photographer? GetById(int id);
+    Photographer Create(Photographer photographer);
 }
