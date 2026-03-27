@@ -6,6 +6,9 @@ backend/.env.test
 !**/.env.example
 node_modules
 
+# JetBrains IDE files
+.idea/
+
 # E2E test results and environment files
 e2e/e2e-results/
 e2e/node_modules/
