@@ -9,12 +9,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="59767870-5406-4571-a010-46ecdec4862d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.PhotoFinderAPI/.idea/httpRequests/http-requests-log.http" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.PhotoFinderAPI/.idea/httpRequests/http-requests-log.http" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.PhotoFinderAPI/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.PhotoFinderAPI/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhotoFinderAPI/Controllers/PhotographersController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhotoFinderAPI/Controllers/PhotographersController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhotoFinderAPI/PhotoFinderAPI.http" beforeDir="false" afterPath="$PROJECT_DIR$/PhotoFinderAPI/PhotoFinderAPI.http" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhotoFinderAPI/Services/IPhotographerService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhotoFinderAPI/Services/IPhotographerService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhotoFinderAPI/Services/MockPhotographerService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhotoFinderAPI/Services/MockPhotographerService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhotoFinderAPI.sln" beforeDir="false" afterPath="$PROJECT_DIR$/PhotoFinderAPI.sln" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,8 +29,10 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/PhotoFinderAPI.Tests/PhotographerControllerTests.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/PhotoFinderAPI/Controllers/PhotographersController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/c9f1e78ef04f5214281bc448c6a251bb5f9a3135b662f76745bbfb39b14150/First.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d427c7ebaeaeb5b095ee93c6d12f116eddeba3abd69f5d12ecad4bf72f0f3/TypeAsserts.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="KubernetesApiProvider">{
   &quot;isMigrated&quot;: true
@@ -54,27 +52,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;.NET Launch Settings Profile.PhotoFinderAPI: http.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.PhotoFinderAPI | #1.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.PhotoFinderAPI | #2.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.PhotoFinderAPI | Create a new photographer.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.7182045&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feature/create-photographer&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    ".NET Launch Settings Profile.PhotoFinderAPI: http.executor": "Run",
+    "1db8d7c6-35ad-42be-8043-fb602be0ba83.executor": "Debug",
+    "HTTP Request.PhotoFinderAPI | #1.executor": "Run",
+    "HTTP Request.PhotoFinderAPI | #2.executor": "Run",
+    "HTTP Request.PhotoFinderAPI | Create a new photographer.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "git-widget-placeholder": "feature/unit-tests",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "editor.preferences.inline.completion",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunDashboard">
     <option name="configurationStatuses">
       <map>
@@ -153,6 +152,7 @@
       <workItem from="1774007479902" duration="1840000" />
       <workItem from="1774194155792" duration="14991000" />
       <workItem from="1774240720182" duration="3297000" />
+      <workItem from="1774575046071" duration="9232000" />
     </task>
     <servers />
   </component>
@@ -192,5 +192,9 @@
         </breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
