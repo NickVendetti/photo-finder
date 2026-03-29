@@ -9,7 +9,7 @@ public class Photographer
         _cameras.Add(c);
     }
 
-    public Camera GetByFocalLength(int mm)
+    public Camera? GetByFocalLength(int mm)
     {
         var camera = _cameras.Find(c => c.Lense.FocalLength == mm);
         return camera;
