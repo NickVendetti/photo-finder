@@ -20,7 +20,6 @@ public class PhotographersController : ControllerBase
     {
         return Ok(_service.GetAll());
     }
-
     [HttpGet("{id}")]
     public ActionResult<Photographer> GetById(int id)
     {
