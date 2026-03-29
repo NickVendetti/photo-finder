@@ -1,15 +1,17 @@
-Console.WriteLine("PhotoFinderAPI Console Application");
-Console.WriteLine("==================================");
-
-// TODO: Start writing your custom code below this line
-var test = new Test();
-Console.WriteLine(test);
+using System;
+using System.Runtime.InteropServices.JavaScript;
+using PhotoFinderAPI.Console;
 
 
-
-// all class definitions go below their usage.
-public class Test
+class Program
 {
+    static void Main()
+    {
+        Photographer p = new Photographer();
+        Lens lens = new Lens(1.2, 85);
+        Camera camera = new Camera(lens);
+        p.AddCamera(camera);
+        Camera foundCamera = p.GetByFocalLength(85);
+
+    }
 }
-
-
