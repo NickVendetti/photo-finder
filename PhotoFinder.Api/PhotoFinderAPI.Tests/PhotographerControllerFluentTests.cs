@@ -61,4 +61,43 @@ public class PhotographerControllerFluentTests
         var photographer = result.Value.Should().BeOfType<Photographer>().Subject;
         photographer.Bio.Should().Be(newPhotographer.Bio);
     }
+
+    [Fact]
+    public void Update_WithValidId_ReturnsUpdatedPhotographer()
+    {
+        var updatedPhotographer = new Photographer
+        {
+            Bio = "updated bio", Location = "updated location", Name = "updated Nick", Style = "updated style",
+            Rating = 4.9
+        };
+        var update = _controller.Update(1, updatedPhotographer);
+
+        var result = update.Result.Should().BeOfType<OkObjectResult>().Subject;
+        var photographer = result.Value.Should().BeOfType<Photographer>().Subject;
+        photographer.Bio.Should().Be(updatedPhotographer.Bio);
+    }
+
+    [Fact]
+    public void Update_WithInvalidId_ReturnsNotFound()
+    {
+        var result = _controller.Update(-1, new Photographer());
+
+        result.Result.Should().BeOfType<NotFoundResult>();
+    }
+
+    [Fact]
+    public void Delete_WithValidId_ReturnsNoContent()
+    {
+        var result = _controller.Delete(1);
+
+        result.Should().BeOfType<NoContentResult>();
+    }
+
+    [Fact]
+    public void Delete_WithInvalidId_ReturnsNotFound()
+    {
+        var result = _controller.Delete(-1);
+
+        result.Should().BeOfType<NotFoundResult>();
+    }
 }

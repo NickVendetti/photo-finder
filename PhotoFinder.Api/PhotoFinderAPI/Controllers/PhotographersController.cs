@@ -20,6 +20,7 @@ public class PhotographersController : ControllerBase
     {
         return Ok(_service.GetAll());
     }
+   
     [HttpGet("{id}")]
     public ActionResult<Photographer> GetById(int id)
     {
@@ -40,5 +41,29 @@ public class PhotographersController : ControllerBase
             new { id = created.Id },
             created
             );
+    }
+
+    [HttpPut("{id}")]
+    public ActionResult<Photographer> Update(int id, [FromBody] Photographer photographer)
+    {
+        var existing = _service.Update(id, photographer);
+        if (existing == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(existing);
+    }
+
+    [HttpDelete("{id}")]
+    public ActionResult Delete(int id)
+    {
+        var existing = _service.Delete(id);
+        if (!existing) 
+        {
+            return NotFound();
+        }
+
+        return NoContent();
     }
 }

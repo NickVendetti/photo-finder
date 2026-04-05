@@ -60,4 +60,45 @@ public class PhotographerControllerTests
         var photographer = Assert.IsType<Photographer>(result.Value);
         Assert.Equal(newPhotographer.Bio, photographer.Bio);
     }
+
+    [Fact]
+    public void Update_WithValidId_ReturnsUpdatedPhotographer()
+    {
+        // Act
+        var updatedPhotographer = new Photographer
+        {
+            Bio = "updated bio", Location = "updated location", Name = "updated Nick", Style = "updated style",
+            Rating = 4.9
+        };
+        var update = _controller.Update(1, updatedPhotographer);
+
+        var result = Assert.IsType<OkObjectResult>(update.Result);
+        var photographer = Assert.IsType<Photographer>(result.Value);
+        Assert.Equal(updatedPhotographer.Bio, photographer.Bio);
+    }
+
+    [Fact]
+    public void Update_WithInvalidId_ReturnsNotFound()
+    {
+        // Act
+        var result = _controller.Update(-1, new Photographer());
+
+        Assert.IsType<NotFoundResult>(result.Result);
+    }
+
+    [Fact]
+    public void Delete_WithValidId_ReturnsNoContent()
+    {
+        var result = _controller.Delete(1);
+        
+        Assert.IsType<NoContentResult>(result);
+    }
+
+    [Fact]
+    public void Delete_WithInvalidId_ReturnsNotFound()
+    {
+        var result = _controller.Delete(-1);
+
+        Assert.IsType<NotFoundResult>(result);
+    }
 } 
