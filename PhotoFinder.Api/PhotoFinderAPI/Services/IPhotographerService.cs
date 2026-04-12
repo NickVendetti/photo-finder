@@ -1,3 +1,4 @@
+using PhotoFinderAPI.Controllers;
 using PhotoFinderAPI.Models;
 
 namespace PhotoFinderAPI.Services;
@@ -5,8 +6,8 @@ namespace PhotoFinderAPI.Services;
 public interface IPhotographerService
 {
     List<Photographer> GetAll();
-    Photographer? GetById(int id);
-    Photographer Create(Photographer photographer);
-    Photographer? Update(int id, Photographer photographer);
-    bool Delete(int id);
+    Photographer? GetById(Guid id);
+    Photographer Create(CreatePhotographerRequest photographer);
+    Photographer? Update(Guid id, Photographer photographer);
+    bool Delete(Guid id);
 }

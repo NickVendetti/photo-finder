@@ -4,6 +4,11 @@ using PhotoFinderAPI.Services;
 
 namespace PhotoFinderAPI.Controllers;
 
+// ApiController checks each Request to make sure it passes all requirements needed.
+// ApiController automatically checks ModelState and returns 400 when annotations fail, no manual check needed
+// if ApiController was not present ---
+// if (!ModelState.IsValid)
+//      return Badrequest(ModelState);
 [ApiController]
 [Route("api/[controller]")]
 public class PhotographersController : ControllerBase
@@ -22,7 +27,7 @@ public class PhotographersController : ControllerBase
     }
    
     [HttpGet("{id}")]
-    public ActionResult<Photographer> GetById(int id)
+    public ActionResult<Photographer> GetById(Guid id)
     {
         var item = _service.GetById(id);
         if (item == null)
@@ -33,7 +38,7 @@ public class PhotographersController : ControllerBase
     }
 
     [HttpPost]
-    public ActionResult<Photographer> Create([FromBody] Photographer photographer)
+    public ActionResult<Photographer> Create([FromBody] CreatePhotographerRequest photographer)
     {
         var created = _service.Create(photographer);
         return CreatedAtAction(
@@ -44,7 +49,7 @@ public class PhotographersController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public ActionResult<Photographer> Update(int id, [FromBody] Photographer photographer)
+    public ActionResult<Photographer> Update(Guid id, [FromBody] Photographer photographer)
     {
         var existing = _service.Update(id, photographer);
         if (existing == null)
@@ -56,7 +61,7 @@ public class PhotographersController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public ActionResult Delete(int id)
+    public ActionResult Delete(Guid id)
     {
         var existing = _service.Delete(id);
         if (!existing) 

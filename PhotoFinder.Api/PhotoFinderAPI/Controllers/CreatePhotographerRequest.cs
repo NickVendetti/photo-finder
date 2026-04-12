@@ -1,20 +1,10 @@
-using System.ComponentModel.DataAnnotations;
+namespace PhotoFinderAPI.Controllers;
 
-namespace PhotoFinderAPI.Models;
-
-public class Photographer
+public class CreatePhotographerRequest
 {
-    public Guid Id { get; set; }
-    [Required]
-    [StringLength(100)]
-    
     public string Name { get; set; } = string.Empty;
-    [Required]
     public string Style { get; set; } = string.Empty;
-    [Required]
     public string Location { get; set; } = string.Empty;
-    [StringLength(500)]
     public string Bio { get; set; } = string.Empty;
-    [Range(0.0, 5.0)]
     public double Rating { get; set; }
 }
