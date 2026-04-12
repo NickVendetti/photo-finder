@@ -12,6 +12,7 @@ GET {{PhotoFinderAPI_HostAddress}}/api/photographers/1
 GET {{PhotoFinderAPI_HostAddress}}/api/photographers/999
 
 ### Create a new photographer
+
 POST http://localhost:5015/api/photographers
 Content-Type: application/json
 
@@ -22,3 +23,24 @@ Content-Type: application/json
   "bio": "Captures urban life in motion",
   "rating": 4.7
 }
+
+### 
+
+PUT http://localhost:5015/api/photographers/1
+Content-Type: application/json
+
+{
+  "name": "Nick Updated",
+  "style": "Street",
+  "location": "Atlanta",
+  "bio": "Updated bio",
+  "rating": 4.9
+}
+
+###
+
+DELETE http://localhost:5015/api/photographers/3
+
+###
+
+DELETE http://localhost:5015/api/photographers/999

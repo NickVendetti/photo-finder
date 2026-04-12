@@ -25,4 +25,36 @@ public class FakePhotographerService : IPhotographerService
         _photographers.Add(photographer);
         return photographer;
     }
+
+    public Photographer? Update(int id, Photographer photographer)
+    {
+        var existing = _photographers.FirstOrDefault(x => x.Id == id);
+        
+        if (existing == null)
+        {
+            return null;
+        }
+        
+        existing.Bio = photographer.Bio;
+        existing.Name = photographer.Name;
+        existing.Rating = photographer.Rating;
+        existing.Location = photographer.Location;
+        existing.Style = photographer.Style;
+
+
+        return existing;
+    }
+
+    public bool Delete(int id)
+    {
+        var existing = _photographers.FirstOrDefault(x => x.Id == id);
+
+        if (existing == null)
+        {
+            return false;
+        }
+
+        _photographers.Remove(existing);
+        return true;
+    }
 }
