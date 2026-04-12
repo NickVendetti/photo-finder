@@ -13,14 +13,10 @@ public class RequestLoggingMiddleware
     {
         // BEFORE the request is handled:
         // You can read context.Request.Method and context.Request.Path here
-        Console.WriteLine(context.Request.Method);
         await _next.Invoke(context);  // Pass the request to the next middleware/controller
+        Console.WriteLine($"{context.Request.Method} {context.Request.Path} -> {context.Response.StatusCode}");
+        
 
-        // AFTER the response is ready:
-        // You can read context.Response.StatusCode here
-        Console.WriteLine(context.Response.StatusCode);
 
-        Console.WriteLine(context);
-        Console.WriteLine("next test");
     }
 }

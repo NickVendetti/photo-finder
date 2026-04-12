@@ -44,3 +44,29 @@ DELETE http://localhost:5015/api/photographers/3
 ###
 
 DELETE http://localhost:5015/api/photographers/999
+
+### Entering an empty 'name'
+
+POST http://localhost:5015/api/photographers
+Content-Type: application/json
+
+{
+  "name": "",
+  "style": "road",
+  "location": "world",
+  "bio": "Captures urban life in motion",
+  "rating": 4.7
+}
+
+### Entering invalid rating
+
+POST http://localhost:5015/api/photographers
+Content-Type: application/json
+
+{
+  "name": "Alex Rivera",
+  "style": "Street",
+  "location": "Austin, TX",
+  "bio": "Captures urban life in motion",
+  "rating": 9999
+}
