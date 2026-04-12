@@ -28,6 +28,7 @@ if (app.Environment.IsDevelopment())
 }
 
 // Configure the HTTP request pipeline.
+app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 app.UseMiddleware<RequestLoggingMiddleware>();
 app.UseCors("AllowFrontEnd");
 app.UseHttpsRedirection();
