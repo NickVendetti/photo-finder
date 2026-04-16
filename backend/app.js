@@ -20,14 +20,28 @@ import authRoutes from "./routes/auth.js";
 const prisma = new PrismaClient();
 export const app = express();
 
+const corsMethods = "GET,POST,PUT,DELETE,PATCH,OPTIONS";
+const corsAllowedHeaders = "Content-Type,Authorization";
+
+const corsOriginsList = process.env.CORS_ORIGINS?.split(",")
+  .map((s) => s.trim())
+  .filter(Boolean);
+
+const corsOptions =
+  corsOriginsList?.length > 0
+    ? {
+        origin: corsOriginsList,
+        methods: corsMethods,
+        allowedHeaders: corsAllowedHeaders,
+      }
+    : {
+        origin: "*",
+        methods: corsMethods,
+        allowedHeaders: corsAllowedHeaders,
+      };
+
 // Middleware
-app.use(
-  cors({
-    origin: "*",
-    methods: "GET,POST,PUT,DELETE",
-    allowedHeaders: "Content-Type,Authorization",
-  })
-);
+app.use(cors(corsOptions));
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
