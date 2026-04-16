@@ -156,7 +156,7 @@ describe("Auth Controller", () => {
       });
     });
 
-    it("should return 401 with invalid user_type", async () => {
+    it("should return 400 with invalid user_type", async () => {
       // Set invalid user_type
       req.body.user_type = "invalid_type";
 
@@ -164,9 +164,9 @@ describe("Auth Controller", () => {
       await authController.registerUser(req, res);
 
       // Assert
-      expect(res.status).toHaveBeenCalledWith(401);
+      expect(res.status).toHaveBeenCalledWith(400);
       expect(res.json).toHaveBeenCalledWith({
-        error: "Invalid user_type on user",
+        message: "Invalid user_type on user",
       });
       expect(prisma.user.create).not.toHaveBeenCalled();
     });
@@ -174,14 +174,14 @@ describe("Auth Controller", () => {
     it('should handle database errors during registration', async () => {
         // Setup mock to throw error
         prisma.user.create.mockRejectedValue(new Error('Database error'));
-        
+
         // Execute
         await authController.registerUser(req, res);
-        
+
         // Assert
         expect(console.error).toHaveBeenCalled();
         expect(res.status).toHaveBeenCalledWith(500);
-        expect(res.json).toHaveBeenCalledWith({ error: 'Registration failed' });
+        expect(res.json).toHaveBeenCalledWith({ message: 'Registration failed. Please try again later.' });
       });
   });
 

@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 jest.mock("../../prisma/client.js", () => ({
   __esModule: true,
   default: {
-    User: {
+    user: {
       findMany: jest.fn(),
       findUnique: jest.fn(),
       create: jest.fn(),
@@ -55,20 +55,20 @@ describe("User Controller", () => {
         { id: 2, username: "user2", email: "user2@example.com" },
       ];
 
-      prisma.User.findMany.mockResolvedValue(mockUsers);
+      prisma.user.findMany.mockResolvedValue(mockUsers);
 
       // Act
       await userController.getAllUsers(req, res);
 
       // Assert
-      expect(prisma.User.findMany).toHaveBeenCalledTimes(1);
+      expect(prisma.user.findMany).toHaveBeenCalledTimes(1);
       expect(res.json).toHaveBeenCalledWith(mockUsers);
     });
 
     it("should handle errors", async () => {
       // Setup mock to throw error
       const errorMsg = "Database connection failed";
-      prisma.User.findMany.mockRejectedValue(new Error(errorMsg));
+      prisma.user.findMany.mockRejectedValue(new Error(errorMsg));
 
       // Execute
       await userController.getAllUsers(req, res);
@@ -87,13 +87,13 @@ describe("User Controller", () => {
       req.params.id = "1";
 
       // Setup mock
-      prisma.User.findUnique.mockResolvedValue(mockUser);
+      prisma.user.findUnique.mockResolvedValue(mockUser);
 
       // Execute
       await userController.getUserById(req, res);
 
       // Assert
-      expect(prisma.User.findUnique).toHaveBeenCalledWith({
+      expect(prisma.user.findUnique).toHaveBeenCalledWith({
         where: { id: 1 },
       });
       expect(res.json).toHaveBeenCalledWith(mockUser);
@@ -102,7 +102,7 @@ describe("User Controller", () => {
     it("should return 400 when user is not found", async () => {
       // Arrange
       req.params.id = "999";
-      prisma.User.findUnique.mockResolvedValue(null);
+      prisma.user.findUnique.mockResolvedValue(null);
 
       // Act
       await userController.getUserById(req, res);
@@ -115,7 +115,7 @@ describe("User Controller", () => {
     it("should handle errors", async () => {
       // Arrange
       req.params.id = "1";
-      prisma.User.findUnique.mockRejectedValue(new Error("Database error"));
+      prisma.user.findUnique.mockRejectedValue(new Error("Database error"));
 
       // Act
       await userController.getUserById(req, res);
@@ -145,7 +145,7 @@ describe("User Controller", () => {
       };
 
       // Setup mock
-      prisma.User.create.mockResolvedValue(mockCreatedUser);
+      prisma.user.create.mockResolvedValue(mockCreatedUser);
 
       // Execute
       await userController.createUser(req, res);
@@ -154,7 +154,7 @@ describe("User Controller", () => {
       expect(bcrypt.genSalt).toHaveBeenCalledWith(10);
       expect(bcrypt.hash).toHaveBeenCalledWith("password123", "mockedsalt");
 
-      expect(prisma.User.create).toHaveBeenCalledWith({
+      expect(prisma.user.create).toHaveBeenCalledWith({
         data: {
           username: "newuser",
           email: "newuser@example.com",
@@ -183,7 +183,7 @@ describe("User Controller", () => {
       expect(res.json).toHaveBeenCalledWith({
         error: "Missing required fields",
       });
-      expect(prisma.User.create).not.toHaveBeenCalled();
+      expect(prisma.user.create).not.toHaveBeenCalled();
     });
 
     it("should handle database errors", async () => {
@@ -196,7 +196,7 @@ describe("User Controller", () => {
       };
 
       // Setup mock to throw error
-      prisma.User.create.mockRejectedValue(
+      prisma.user.create.mockRejectedValue(
         new Error("Unique constraint failed on email")
       );
 

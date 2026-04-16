@@ -85,7 +85,7 @@ describe("Photo Controller", () => {
       // Assert
       expect(prisma.photo.findMany).toHaveBeenCalledWith({
         include: {
-          user: {
+          photographer: {
             select: {
               id: true,
               username: true,
@@ -229,7 +229,7 @@ describe("Photo Controller", () => {
           photo_type: "PORTRAIT",
         },
         include: {
-          user: {
+          photographer: {
             select: {
               id: true,
               username: true,
