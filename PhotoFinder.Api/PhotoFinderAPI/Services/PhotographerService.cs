@@ -1,4 +1,4 @@
-using PhotoFinderAPI.Controllers;
+using PhotoFinderAPI.DTOs;
 
 namespace PhotoFinderAPI.Services;
 
