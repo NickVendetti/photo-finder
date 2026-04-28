@@ -70,13 +70,17 @@ describe("Booking Component", () => {
   });
 
   it("submits the form with correct data and navigates on success", async () => {
+    const future = new Date();
+    future.setDate(future.getDate() + 14);
+    const futureDateStr = future.toISOString().split("T")[0];
+
     render(<Booking />);
 
     fireEvent.change(screen.getByLabelText("Session Type"), {
       target: { value: "family" },
     });
     fireEvent.change(screen.getByLabelText("Select Date"), {
-      target: { value: "2025-04-20" },
+      target: { value: futureDateStr },
     });
 
     await vi.waitFor(() => {
@@ -89,7 +93,7 @@ describe("Booking Component", () => {
 
     expect(bookingApi.createBooking).toHaveBeenCalledWith({
       bookingType: "family",
-      date: "2025-04-20",
+      date: futureDateStr,
       time: "10:00",
       photographer_id: 456,
       user_id: 123,

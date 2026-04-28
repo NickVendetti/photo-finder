@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { Users, Camera, ArrowLeft } from "lucide-react";
 
 function RoleSelectionCards({ onSelect, onBack, isLoading }) {
@@ -6,7 +7,7 @@ function RoleSelectionCards({ onSelect, onBack, isLoading }) {
       <h3 className="text-xl font-semibold text-gray-800 mb-2">
         What brings you here?
       </h3>
-      <p className="text-sm text-gray-500 mb-8">Choose how you'll use PhotoBook</p>
+      <p className="text-sm text-gray-500 mb-8">Choose how you&apos;ll use PhotoBook</p>
 
       <div className="flex flex-col sm:flex-row gap-4 w-full">
         <button
@@ -19,7 +20,7 @@ function RoleSelectionCards({ onSelect, onBack, isLoading }) {
             <Users className="h-10 w-10 text-indigo-600" />
           </div>
           <div className="text-center">
-            <p className="text-lg font-bold text-gray-900">I'm looking to hire</p>
+            <p className="text-lg font-bold text-gray-900">I&apos;m looking to hire</p>
             <p className="text-sm text-gray-500 mt-1">
               Browse photographers and book sessions
             </p>
@@ -36,7 +37,7 @@ function RoleSelectionCards({ onSelect, onBack, isLoading }) {
             <Camera className="h-10 w-10 text-indigo-600" />
           </div>
           <div className="text-center">
-            <p className="text-lg font-bold text-gray-900">I'm a photographer</p>
+            <p className="text-lg font-bold text-gray-900">I&apos;m a photographer</p>
             <p className="text-sm text-gray-500 mt-1">
               Showcase your work and manage bookings
             </p>
@@ -62,5 +63,11 @@ function RoleSelectionCards({ onSelect, onBack, isLoading }) {
     </div>
   );
 }
+
+RoleSelectionCards.propTypes = {
+  onSelect: PropTypes.func.isRequired,
+  onBack: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool,
+};
 
 export default RoleSelectionCards;

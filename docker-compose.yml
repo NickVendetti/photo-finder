@@ -3,7 +3,7 @@ services:
     build:
       context: ./frontend
       args:
-        # Using the public URL since requests will go through nginx
+        # Remote API: that host must send Access-Control-Allow-Origin for your real frontend origin, or use same-origin `/api` behind your gateway.
         - VITE_API_BASE_URL=https://photobook.kilometers.ai/api
     container_name: my-frontend
     networks:
