@@ -1,8 +1,9 @@
 using PhotoFinderAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using PhotoFinderAPI.Services;
+using PhotoFinderAPI.DTOs;
 
-namespace PhotoFinderAPI.Controllers;
+namespace PhotoFinderAPI;
 
 // ApiController checks each Request to make sure it passes all requirements needed.
 // ApiController automatically checks ModelState and returns 400 when annotations fail, no manual check needed

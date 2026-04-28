@@ -6,11 +6,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Add services to the container.
-builder.Services.AddControllers();
-builder.Services.AddSingleton<IPhotographerService, PhotographerService>();
-// builder.Services.AddScoped<IPhotographerService, RealPhotographerService>();
-
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
@@ -18,6 +13,11 @@ builder.Services.AddCors(options =>
         policy.WithOrigins("http://localhost:5173").AllowAnyHeader().AllowAnyMethod();
     });
 });
+
+// Add services to the container.
+builder.Services.AddControllers();
+builder.Services.AddSingleton<IPhotographerService, PhotographerService>();
+// builder.Services.AddScoped<IPhotographerService, RealPhotographerService>();
 
 var app = builder.Build();
 
@@ -30,7 +30,7 @@ if (app.Environment.IsDevelopment())
 // Configure the HTTP request pipeline.
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 app.UseMiddleware<RequestLoggingMiddleware>();
-app.UseCors("AllowFrontEnd");
+app.UseCors("AllowFrontend");
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();

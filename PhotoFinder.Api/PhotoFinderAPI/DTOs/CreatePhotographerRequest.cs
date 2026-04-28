@@ -1,4 +1,4 @@
-namespace PhotoFinderAPI.Controllers;
+namespace PhotoFinderAPI.DTOs;
 
 public class CreatePhotographerRequest
 {
