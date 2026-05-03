@@ -2,6 +2,10 @@ using Microsoft.AspNetCore.Mvc;
 using PhotoFinderAPI.Data;
 using PhotoFinderAPI.Models;
 using PhotoFinderAPI.DTOs;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace PhotoFinderAPI.Controllers;
 
@@ -10,10 +14,12 @@ namespace PhotoFinderAPI.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly AppDbContext _db;
+    private readonly IConfiguration _config;
 
-    public AuthController(AppDbContext db)
+    public AuthController(AppDbContext db, IConfiguration config)
     {
         _db = db;
+        _config = config;
     }
 
     [HttpPost("register")]
@@ -64,12 +70,37 @@ public class AuthController : ControllerBase
             return Unauthorized("Incorrect Password");
         }
 
+        var claims = new List<Claim>
+        {
+            new Claim("id", existing.Id.ToString()),
+            new Claim("email", existing.Email),
+            new Claim("usertype", existing.UserType)
+        };
+
+        var key = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(_config["Jwt:Secret"]!)
+        );
+
+        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+        var token = new JwtSecurityToken(
+            issuer: _config["Jwt:Issuer"],
+            audience: _config["Jwt:Audience"],
+            claims: claims,
+            expires: DateTime.UtcNow.AddMinutes(Convert.ToDouble(_config["Jwt:ExpiryMinutes"])),
+            signingCredentials: creds
+        );
+
+        var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+
         var response = new UserResponse();
         response.Email = existing.Email;
         response.Id = existing.Id;
         response.Username = existing.Username;
         response.UserType = existing.UserType;
         response.CreatedAt = existing.CreatedAt;
+
+        response.Token = tokenString;
         
         return Ok(response);
     }
