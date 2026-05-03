@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using PhotoFinderAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using PhotoFinderAPI.Services;
@@ -37,7 +38,8 @@ public class PhotographersController : ControllerBase
         }
         return Ok(item);
     }
-
+    
+    [Authorize]
     [HttpPost]
     public ActionResult<Photographer> Create([FromBody] CreatePhotographerRequest photographer)
     {
