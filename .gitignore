@@ -26,3 +26,4 @@ coverage/
 # .NET build output
 bin/
 obj/
+*.lscache
