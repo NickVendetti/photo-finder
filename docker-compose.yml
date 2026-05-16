@@ -35,9 +35,6 @@ services:
     ports:
       - "5432:5432"
     environment:
-      # - POSTGRES_USER=${POSTGRES_USER}
-      # - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      # - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=my-database
@@ -46,20 +43,6 @@ services:
     networks:
       - app-network
     restart: unless-stopped
-#   frontend:
-#     build:
-#       context: ./frontend
-#       args:
-#         - VITE_API_BASE_URL=http://localhost:6000
-#     container_name: my-frontend
-#     ports:
-#       - "8080:80"
-#     depends_on:
-#       - backend
-#     # environment:
-#     #   - VITE_API_BASE_URL=http://my-backend:6000
-#     networks:
-#       - my-network
 
 networks:
   app-network:

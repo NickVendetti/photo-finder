@@ -1,15 +1,14 @@
 import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { deletePhoto, uploadPhoto } from "../api/client";
-import photoApi from "../api/photoApi";
+import { deletePhoto, uploadPhoto, fetchAllPhotos } from "../api/client";
 import { PlusCircle, Trash2 } from "lucide-react";
 
 const photoTypes = [
   { value: "wedding", label: "Wedding" },
   { value: "portrait", label: "Portrait" },
   { value: "landscape", label: "Landscape" },
-  { value: "sports", label: "Sports" },
+  { value: "sports", label: "Sports" }
 ];
 
 function ProfileDashboard() {
@@ -25,17 +24,17 @@ function ProfileDashboard() {
   useEffect(() => {
     const loadPhotosForUser = async () => {
       if (photographerId) {
-        const response = await photoApi.getPhotosByUserId(photographerId);
-        if (response && response.photos) {
-          const images = response.photos.map((p) => ({
-            key: p.id,
-            img: p.image,
-          }));
-          setUploadedImages(images);
-        }
+        const allPhotos = await fetchAllPhotos();
+        const mine = allPhotos.filter(
+          (photo) => photo.photographer?.id === parseInt(photographerId)
+        );
+        const images = mine.map((p) => ({
+          key: p.id,
+          img: p.image
+        }));
+        setUploadedImages(images);
       }
     };
-
     loadPhotosForUser();
   }, [photographerId]);
 
@@ -61,7 +60,7 @@ function ProfileDashboard() {
       if (res.success) {
         setUploadedImages([
           ...uploadedImages,
-          { key: res.photo.id, img: res.photo.image },
+          { key: res.photo.id, img: res.photo.image }
         ]);
         setFileName("");
         setImage(null);

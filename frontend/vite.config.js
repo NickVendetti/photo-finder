@@ -1,12 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-const mode = process.env.NODE_ENV || "development";
-const envFile = `.env.${mode}`;
-
-import dotenv from "dotenv";
-dotenv.config({ path: envFile });
-
 // Default `/api` keeps the browser on the Vite origin and avoids CORS during local dev.
 // Override with VITE_API_BASE_URL (e.g. http://localhost:5002) if you want to hit the API directly.
 // If requests fail, check DevTools → Network: request URL, response CORS headers, and OPTIONS preflight.
