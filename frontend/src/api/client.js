@@ -2,11 +2,6 @@ import axios from "axios";
 
 export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-/**
- * Login function
- * @param {Object} formData - The user login credentials.
- * @returns {Promise<Object>} - The login response data.
- */
 export async function loginUser(formData) {
   try {
     const response = await fetch(`${API_BASE_URL}/auth/login`, {
@@ -28,10 +23,6 @@ export async function loginUser(formData) {
   }
 }
 
-/**
- * Fetch all photos
- * @returns {Promise<Array>} - List of photos.
- */
 export async function fetchAllPhotos() {
   try {
     const response = await fetch(`${API_BASE_URL}/photos/`);
@@ -48,49 +39,6 @@ export async function fetchAllPhotos() {
   }
 }
 
-/**
- * Fetch photo details by ID
- * @param {string} photoId - The ID of the photo.
- * @returns {Promise<Object>} - Photo details.
- */
-export async function fetchPhotoDetails(photoId) {
-  try {
-    const response = await fetch(`${API_BASE_URL}/photos/${photoId}`);
-    if (!response.ok) throw new Error("Failed to fetch photo details");
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error fetching photo details:", error);
-    throw error;
-  }
-}
-
-/**
- * Fetch photographer details by ID
- * @param {string} photographerId - The ID of the photographer.
- * @returns {Promise<Object>} - Photographer details.
- */
-export async function fetchPhotographerDetails(photographerId) {
-  try {
-    const response = await fetch(
-      `${API_BASE_URL}/photographers/${photographerId}`
-    );
-    if (!response.ok) throw new Error("Failed to fetch photographer details");
-
-    return await response.json();
-  } catch (error) {
-    console.error("Error fetching photographer details:", error);
-    throw error;
-  }
-}
-
-/**
- * Upload an image
- * @param {string} photographerId - The ID of the photographer.
- * @param {string} image - The image file (base64 or file object).
- * @returns {Promise<Object>} - Upload response.
- */
 export async function uploadPhoto(photographerId, image, photoType) {
   try {
     const response = await axios.post(`${API_BASE_URL}/photos/upload`, {

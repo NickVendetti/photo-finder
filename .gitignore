@@ -22,6 +22,8 @@ coverage/
 # Claude Code local settings (machine-specific)
 .claude/settings.local.json
 
+
 # .NET build output
 bin/
 obj/
+*.lscache
